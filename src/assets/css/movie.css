@@ -1,0 +1,403 @@
+@import url("bootstrap/dist/css/bootstrap.min.css");
+@import url("home.css");
+@import url("responsiveIndex.css");
+
+.film__info {
+    position: relative;
+    max-width: 120rem;
+    margin: 0 auto;
+    padding-top: .75rem;
+}
+
+.film__info-img {
+    position: relative;
+    border-radius: 0.5rem;
+}
+
+.img__big {
+    position: relative;
+}
+
+.img__big::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, .4);
+}
+
+.img__big img {
+    max-height: 50rem;
+    object-fit: cover;
+
+}
+
+.info__wrap {
+    position: absolute;
+    left: 1.5rem;
+    bottom: 1.5rem;
+    display: flex;
+    gap: 2rem;
+    align-items: flex-end;
+}
+
+.img__small {
+    width: 25rem;
+    border: 0.1rem solid #ccc;
+    border-radius: 0.2rem;
+}
+
+.film__info-img .icon-play {
+    opacity: .8;
+    top: calc(0% + 5rem);
+    left: calc(100% - 5rem);
+}
+
+.film__info-img .icon-play:hover {
+    color: #fff;
+    transform: translate(-50%, -50%) scale(1.7);
+}
+
+.film__info-text h1 {
+    font-size: 2.8rem;
+    font-weight: 600;
+}
+
+.film__info-text h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-block: 1rem;
+}
+
+.film__info-text .btn-red {
+    border: none;
+    font-size: 1.8rem;
+    font-weight: 600;
+    padding-block: 0.75rem;
+}
+
+.film__info .section__movie-list:not(:last-child) {
+    padding-bottom: 0;
+}
+
+.list__button {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    gap: 2rem;
+}
+
+.addTo__account {
+    width: 4rem;
+    height: 4rem;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    border-radius: 50%;
+    font-size: 1.6rem;
+    position: relative;
+    cursor: pointer;
+    transition: all .2s;
+    color: var(--orange-color);
+    background: var(--black-color);
+}
+
+.addTo__account:hover {
+    --black-color: #333;
+    background: var(--black-color);
+}
+
+.addTo__account:hover .addTo__account-des {
+    display: block;
+}
+
+.addTo__account-des {
+    --growth-from: 0.2;
+    --growth-to: 1;
+    position: absolute;
+    bottom: 0;
+    display: none;
+    left: calc(50% + 0.75rem);
+    animation: fadeIn ease-in 0.15s,
+        growth ease-in 0.15s;
+    transition: all ease-in .15s;
+    will-change: transform, opacity;
+}
+
+.addTo__account-des .triangle {
+    border-bottom: 1rem solid var(--blue-color);
+}
+
+.des {
+    background-color: var(--blue-color);
+    color: var(--white-color);
+    white-space: nowrap;
+    width: fit-content;
+    position: absolute;
+    padding-inline: 1rem;
+    top: 0.75rem;
+    right: 50%;
+    border-radius: .5rem;
+    transform: translateX(calc(50% - 0.75rem));
+}
+
+/* .detail__movie {
+    list-style: none;
+    font-weight: 500;
+    margin-block: 1.5rem;
+    padding-inline: 2rem;
+    border-bottom: 1px solid #333;
+}
+
+.detail__movie>li:last-child {
+    display: grid;
+    gap: 1rem;
+}
+
+.detail__movie li p {
+    margin: 0;
+    white-space: nowrap;
+    transition: all.2s;
+    color: var(--white-color);
+} */
+
+/* .detail__movie>li {
+    display: flex;
+    gap: .5rem;
+    margin-bottom: 1rem;
+    color: var(--text-gray);
+} */
+
+/* .detail__movie li a {
+    color: var(--text-gray);
+    text-decoration: none;
+} */
+
+/* .actor:hover p {
+    color: var(--text-gray);
+} */
+
+.movie__container a {
+    color: var(--text-gray);
+    text-decoration: none;
+    transition: all .2s;
+}
+
+.movie__container dl {
+    margin-inline: 1rem;
+}
+
+.movie__container dt:not(:first-child) {
+    margin-top: 1rem;
+}
+
+.movie__container dd {
+    color: var(--text-gray);
+}
+
+.movie__container a:hover {
+    color: var(--orange-color);
+}
+
+.imdb {
+    /* background: #e3b71e; */
+    padding-inline: 0.5rem;
+    border-radius: 0.4rem;
+    font-weight: 700;
+    color: var(--black-color);
+}
+
+.cast {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.actor {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    flex-flow: column;
+    max-width: 14rem;
+}
+
+.actor__img {
+    width: 14rem;
+    height: 14rem;
+    border-radius: 50%;
+    overflow: hidden;
+    transition: all .2s;
+}
+
+.actor:hover .actor__img {
+    transform: translateY(-.5rem);
+    box-shadow: rgb(0 0 0 / 35%) 0 .3rem .4rem .3rem;
+}
+
+.actor__img img {
+    height: 100%;
+    object-fit: cover;
+}
+
+.actor__name p {
+    margin-top: .2rem;
+    text-align: center;
+    line-height: 1.2;
+}
+
+/* Overview */
+.overview {
+    padding-inline: 2rem;
+    border-bottom: 0.1rem solid #333;
+}
+
+.overview h1 {
+    font-size: 2.6rem;
+    font-style: italic;
+    color: var(--orange-color);
+}
+
+.wrap-iframes .item {
+    display: grid;
+    gap: 1rem;
+    align-items: center;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+
+.wrap-iframes iframe {
+    width: 100%;
+    height: 100%;
+    border-radius: 0.5rem;
+}
+
+.wrap {
+    padding-block: 1rem;
+    margin-inline: 5vw;
+}
+
+.wrap .nav {
+    justify-content: center;
+}
+
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active {
+    color: var(--black-color);
+}
+
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active {
+    background-color: var(--black-color);
+    color: var(--orange-color);
+    border-bottom-color: transparent;
+}
+
+.nav-tabs .nav-link {
+    color: var(--white-color);
+}
+
+.user__content {
+    margin-block: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+.user__avatar {
+    font-size: 5rem;
+    width: 5rem;
+    border-radius: 50%;
+    display: flex;
+    overflow: hidden;
+    background: var(--gray-color);
+    justify-content: center;
+}
+
+.user__profile-list {
+    padding-inline: 5vw;
+    list-style: none;
+    font-size: 1.6rem;
+}
+
+
+/* User */
+.tab-content {
+    margin-top: 5rem;
+}
+
+.tab-content .card {
+    border: none;
+    max-height: 20rem;
+}
+
+.tab-content .card a {
+    text-decoration: none;
+    color: var(--black-color);
+}
+
+.tab-content .card-body {
+    height: 100%;
+    color: var(--black-color);
+    display: flex;
+    gap: 1rem;
+}
+
+.tab-content .release-date {
+    font-size: 1.6rem;
+    color: var(--text-gray);
+}
+
+.tab-content .card-title h2 {
+    margin: 0;
+    font-weight: 700;
+}
+
+.tab-content .card-body .wrap {
+    margin: 0;
+}
+
+.tab-content .img-fluid.rounded-start {
+    height: 100%;
+    max-height: 20rem;
+    object-fit: cover;
+}
+
+.tab-content .card-text {
+    font-size: 1.6rem;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    display: -webkit-box;
+}
+
+.btn__changePassword {
+    color: var(--gray-color);
+    text-decoration: none;
+    transition: all .2s;
+}
+
+.btn__changePassword:hover {
+    color: var(--orange-color);
+}
+
+.tab-content .btn.btn-remove {
+    border-radius: 50%;
+    align-self: center;
+}
+
+.btn-remove>* {
+    font-size: 1.6rem;
+}
+
+.btn__remove-list {
+    display: block;
+    padding-block: .7rem;
+    font-size: 1.6rem;
+    margin: 0 1rem 0 auto;
+}
