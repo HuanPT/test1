@@ -233,7 +233,7 @@ const fetchMoviesListByGenres = (id, genres) => {
     .then((res) => res.json())
     .then((data) => {
       makeCategoryElementSlide(genres, data.results);
-      customCarousel.carousel(data);
+      // customCarousel.carousel(data);
     })
     .catch((err) => console.log("err"));
 };
