@@ -205,8 +205,9 @@ video {
     padding: 1rem 1rem 0;
 }
 
+.has-txt .input-tag+.place,
 .label__input .input-tag:focus+.place {
-    top: 1rem;
+    top: 1.1rem;
     font-size: 1.1rem;
 }
 
@@ -417,7 +418,9 @@ video {
 }
 
 /* Login */
-.login {
+
+.login,
+.register {
     position: fixed;
     z-index: 10;
     inset: 0;
@@ -443,34 +446,34 @@ video {
 }
 
 
-/* Login-list */
-.login__list {
+/* form-list */
+.form__list {
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.6rem;
 }
 
-.login__item {
+.form__item {
     display: flex;
     flex-direction: column;
     gap: 2rem;
     width: 43rem;
 }
 
-.login__item h1 {
+.form__item h1 {
     font-size: 3.2rem;
     font-weight: bold;
     margin-bottom: 2rem;
 }
 
-.login__item .input-tag {
+.form__item .input-tag {
     color: #ccc;
     border-bottom: .2rem solid #e87c03;
     background-color: #333;
 }
 
-.login__item .input-tag:focus {
+.form__item .input-tag:focus {
     background: #454545;
 }
 
@@ -494,10 +497,11 @@ video {
     background: transparent;
 }
 
-.login__btn .btn {
+.form__btn .btn {
     border: 0;
     padding: 1.2rem;
     font-size: 1.6rem;
+    width: 100%;
 }
 
 .login__form-help {
@@ -581,9 +585,6 @@ input[type=checkbox]:checked::before {
 }
 
 /* Reset password list*/
-.login__btn .btn {
-    width: 100%;
-}
 
 .success__img {
     font-size: 15rem;

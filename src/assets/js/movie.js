@@ -1,20 +1,19 @@
-import "@lib/Owlcarousel2/assets/owl.carousel.min.css";
-import "@lib/Owlcarousel2/assets/owl.theme.default.min.css";
+// import "@lib/Owlcarousel2/assets/owl.carousel.min.css";
+// import "@lib/Owlcarousel2/assets/owl.theme.default.min.css";
 import "@assets/css/index.css";
 import "@assets/css/movie.css";
 import "@assets/css/search.css";
 import "@assets/css/person.css";
-import "@assets/css/responsiveIndex.css";
 
 import "@lib/jquery-3.6.1.min.js";
-import "@lib/Owlcarousel2/owl.carousel.min.js";
+// import "@lib/Owlcarousel2/owl.carousel.min.js";
 
 import "@fortawesome/fontawesome-free/js/all.min.js";
 
 import "bootstrap/dist/js/bootstrap.min.js";
 
 import * as api from "./api.js";
-import * as customCarousel from "./customCarousel.js";
+// import * as customCarousel from "./customCarousel.js";
 
 import { navSearchDesktop, navSearchMobile, navMobile } from "./common.js";
 
@@ -36,7 +35,7 @@ fetch(
   .then((data) => {
     // console.log(data);
     setupMovieInfo(data);
-    customCarousel.carousel();
+    // customCarousel.carousel();
     favorite();
     bookmark();
   })
@@ -91,7 +90,7 @@ const movieName = (data) => {
                     <li>
                       <div class="addTo__account favorite">
                         <div class="addTo__account-wrap">
-                          <span class="remove__favorite">
+                          <span>
                             <i class="fa-regular fa-heart"></i>
                           </span>
                           <span class="add__favorite d-none">
@@ -107,7 +106,7 @@ const movieName = (data) => {
                     <li>
                       <div class="addTo__account bookmark">
                         <div class="addTo__account-wrap">
-                          <span class="remove__bookmark">
+                          <span>
                             <i class="fa-regular fa-bookmark"></i>
                           </span>
                           <span class="add__bookmark d-none">
@@ -317,26 +316,21 @@ fetch(
       }
     }
     container.append(slide);
-    customCarousel.carousel(data);
+    // customCarousel.carousel(data);
   });
 
 const favorite = () => {
   const favorite = document.querySelector(".favorite");
-  const removeFavorite = favorite.querySelector(".remove__favorite");
   const addFavorite = favorite.querySelector(".add__favorite");
   favorite.addEventListener("click", () => {
-    removeFavorite.classList.toggle("d-none");
     addFavorite.classList.toggle("d-none");
   });
 };
 
 const bookmark = () => {
   const bookmark = document.querySelector(".bookmark");
-  const removeBookmark = bookmark.querySelector(".remove__bookmark");
   const addBookmark = bookmark.querySelector(".add__bookmark");
   bookmark.addEventListener("click", () => {
-    console.log(removeBookmark, addBookmark);
-    removeBookmark.classList.toggle("d-none");
     addBookmark.classList.toggle("d-none");
   });
 };

@@ -1,13 +1,13 @@
-import "@lib/Owlcarousel2/assets/owl.carousel.min.css";
-import "@lib/Owlcarousel2/assets/owl.theme.default.min.css";
+// import "@lib/Owlcarousel2/assets/owl.carousel.min.css";
+// import "@lib/Owlcarousel2/assets/owl.theme.default.min.css";
 import "@assets/css/index.css";
 import "@assets/css/movie.css";
 import "@assets/css/person.css";
 import "@assets/css/search.css";
-import "@assets/css/responsiveIndex.css";
+// import "@assets/css/responsiveIndex.css";
 
-import "@lib/jquery-3.6.1.min.js";
-import "@lib/Owlcarousel2/owl.carousel.min.js";
+// import "@lib/jquery-3.6.1.min.js";
+// import "@lib/Owlcarousel2/owl.carousel.min.js";
 
 import "@fortawesome/fontawesome-free/js/all.min.js";
 

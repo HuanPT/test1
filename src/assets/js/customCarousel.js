@@ -1,5 +1,5 @@
-import "@lib/Owlcarousel2/assets/owl.carousel.min.css";
-import "@lib/Owlcarousel2/assets/owl.theme.default.min.css";
+// import "@lib/jquery-3.6.1.min.js";
+// import $ from "jquery";
 import "@lib/Owlcarousel2/owl.carousel.min.js";
 
 export let carousel = () => {

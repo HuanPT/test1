@@ -113,6 +113,19 @@
     display: block;
 }
 
+.addTo__account-wrap {
+    position: relative;
+}
+
+.add__bookmark,
+.add__favorite {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
 .addTo__account-des {
     --growth-from: 0.2;
     --growth-to: 1;

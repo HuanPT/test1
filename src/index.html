@@ -16,13 +16,65 @@
 </head>
 
 <body>
-  <div class="login d-none">
-    <div class="overlay">
-    </div>
+  <div class="form register">
+    <div class="overlay"></div>
     <div class="form__wrapper">
-      <div class="login__list">
+      <div class="form__list">
+        <form class="register__form form__item">
+          <h1>Đăng ký</h1>
+          <div class="login__input-group">
+            <label class="label__input">
+              <input type="text" name="fullName" class="input-tag full-name">
+              <span class="place">
+                Họ và tên
+              </span>
+            </label>
+          </div>
+          <div class="email__group login__input-group">
+            <label class="label__input">
+              <input id="create__email" type="email" name="email" class="input-tag email__login">
+              <span class="place">
+                Địa chỉ email
+              </span>
+            </label>
+            <span class="input-error">Email chưa chính xác</span>
+          </div>
+          <div class="password__group  login__input-group">
+            <div class="wrap__label has__password-toggle">
+              <label class="label__input">
+                <input id="create__password" type="password" name="password" class="input-tag password__login">
+                <span class="place">
+                  Mật khẩu
+                </span>
+              </label>
+              <button type="button" class="btn btn__password-toggle">Hiện</button>
+            </div>
+            <span class="input-error">chưa chính xác</span>
 
-        <form class="login__form d-none login__item">
+          </div>
+
+          <div class="form__btn register__btn">
+            <button type="button" class="btn btn-red">Đăng ký</button>
+          </div>
+
+          <div class="register__now">
+            Bạn đã có tài khoản TheMovies? <a href="/">Đăng nhập ngay.</a>
+          </div>
+        </form>
+      </div>
+      <div class="close-btn">
+        <button class="btn btn-dark">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="form login d-none">
+    <div class="overlay"></div>
+    <div class="form__wrapper">
+      <div class="form__list">
+
+        <form class="login__form d-none form__item">
           <h1>Đăng nhập</h1>
           <div class="email__group login__input-group">
             <label class="label__input">
@@ -48,7 +100,7 @@
 
           </div>
 
-          <div class="login__btn">
+          <div class="form__btn login__btn">
             <button type="button" class="btn btn-red">Đăng nhập</button>
           </div>
           <div class="login__form-help">
@@ -68,7 +120,7 @@
           </div>
         </form>
 
-        <form class="forget__form d-none login__item">
+        <form class="forget__form d-none form__item">
           <h1>Bạn quên mật khẩu?</h1>
           <h3>Chúng tôi sẽ gửi email kèm theo hướng dẫn đặt lại mật khẩu.</h3>
 
@@ -83,12 +135,12 @@
             <span class="input-error"></span>
           </div>
 
-          <div class="login__btn login__btn-send">
+          <div class="form__btn form__btn-send">
             <button type="button" class="btn btn-red">Gửi email cho tôi</button>
           </div>
         </form>
 
-        <form class="confirm__form d-none login__item">
+        <form class="confirm__form d-none form__item">
           <h1>Nhập mã xác minh.</h1>
           <div class="login__input-group">
             <label class="label__input" for="code__confirm">
@@ -100,12 +152,12 @@
             </label>
           </div>
 
-          <div class="login__btn login__btn-confirm">
+          <div class="form__btn form__btn-confirm">
             <button type="button" class="btn btn-red">Xác nhận</button>
           </div>
         </form>
 
-        <form class="createPassword__form d-none login__item">
+        <form class="createPassword__form d-none form__item">
           <h1>Tạo mới mật khẩu.</h1>
           <div class="password__group  login__input-group">
             <div class="wrap__label has__password-toggle">
@@ -134,19 +186,19 @@
             </div>
             <span class="input-error">Email chưa chính xác</span>
           </div>
-          <div class="login__btn login__btn-save">
+          <div class="form__btn form__btn-save">
             <button type="button" class="btn btn-red">Lưu</button>
           </div>
         </form>
 
-        <div class="successPassword__form d-none login__item">
+        <div class="successPassword__form d-none form__item">
           <h1>Tạo mật khẩu thành công.</h1>
 
           <div class="success__img">
             <i class="fa-solid fa-check"></i>
           </div>
 
-          <div class="login__btn login__btn-success">
+          <div class="form__btn form__btn-success">
             <button type="button" class="btn btn-red">Đăng nhập</button>
           </div>
         </div>
@@ -618,8 +670,6 @@
       </div>
     </div>
   </footer>
-
-
 
   <script type="module" src="./assets/js/main.js"></script>
 </body>

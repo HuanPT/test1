@@ -33,3 +33,8 @@ export const navMobile = () => {
     nav.classList.toggle("hidden");
   });
 };
+
+export function isEmail(value, message) {
+  const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  return regex.test(value) ? undefined : message || "Trường này phải là email";
+}

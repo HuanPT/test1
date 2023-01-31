@@ -137,6 +137,7 @@ const filterCountry = (data) => {
       codeItem == "TH" ||
       codeItem == "TW"
     ) {
+      console.log(item);
       country.innerHTML += `
         <option value="${codeItem}">${item.native_name}</option>
       `;
