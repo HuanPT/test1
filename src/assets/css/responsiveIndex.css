@@ -161,6 +161,10 @@
         gap: 1.5rem;
         grid-template-columns: repeat(3, 1fr);
     }
+
+    .cast {
+        gap: 4rem;
+    }
 }
 
 @media screen and (min-width: 950px) {
@@ -233,6 +237,10 @@
     .actor__img {
         width: 15rem;
         height: 15rem;
+    }
+
+    .cast {
+        gap: 5rem;
     }
 
 }

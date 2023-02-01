@@ -1,19 +1,14 @@
-// import "@lib/Owlcarousel2/assets/owl.carousel.min.css";
-// import "@lib/Owlcarousel2/assets/owl.theme.default.min.css";
 import "@assets/css/index.css";
 import "@assets/css/movie.css";
 import "@assets/css/search.css";
 import "@assets/css/person.css";
-
-import "@lib/jquery-3.6.1.min.js";
-// import "@lib/Owlcarousel2/owl.carousel.min.js";
 
 import "@fortawesome/fontawesome-free/js/all.min.js";
 
 import "bootstrap/dist/js/bootstrap.min.js";
 
 import * as api from "./api.js";
-// import * as customCarousel from "./customCarousel.js";
+import * as customCarousel from "./customCarousel.js";
 
 import { navSearchDesktop, navSearchMobile, navMobile } from "./common.js";
 
@@ -147,7 +142,7 @@ const infoGenres = (data) => {
   let length = data.genres.length;
   for (let i = 0; i < length; i++) {
     genresDiv.innerHTML += `
-        <a href="/search.html?q=${data.genres[i].id}">${
+        <a href="/search.html?with_genres=${data.genres[i].id}">${
       data.genres[i].name
     }</a>${formatString(i, length)}
     `;
@@ -220,7 +215,7 @@ const cast = (data) => {
   const cast = document.querySelector(".cast");
   const actor = data.cast;
   // console.log(actor);
-  for (let i = 0; i < 8; i++) {
+  for (let i = 0; i < 10; i++) {
     if (actor[i].profile_path !== null) {
       // item.backdrop_path = item.poster_path;
       // if (item.backdrop_path == null) {
@@ -316,7 +311,7 @@ fetch(
       }
     }
     container.append(slide);
-    // customCarousel.carousel(data);
+    customCarousel.carousel(data);
   });
 
 const favorite = () => {

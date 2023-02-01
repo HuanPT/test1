@@ -13,31 +13,52 @@ import { navSearchDesktop, navSearchMobile } from "./common";
 
 let keyword = decodeURI(location.search.replace("?q=", ""));
 
+let genresId = location.search.replace("?with_genres=", "");
+
+console.log(keyword, genresId);
+
 let page = 1;
-fetch(
-  api.searchMovie +
-    new URLSearchParams({
-      api_key: api.api_key,
-    }) +
-    api.language +
-    "&page" +
-    page +
-    `&query=${keyword}`
-)
-  .then((res) => res.json())
-  .then((data) => {
-    console.log(data);
-    renderListSearch(data);
-    keyWord();
-  });
+
+const searchGenresId = (genresId) => {
+  fetch(
+    api.movieGenresLink +
+      new URLSearchParams({
+        api_key: api.api_key,
+        with_genres: genresId,
+        page: page,
+      }) +
+      api.language
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      renderListSearch(data);
+    });
+};
+
+const searchKeyword = () => {
+  fetch(
+    api.searchMovie +
+      new URLSearchParams({
+        api_key: api.api_key,
+      }) +
+      api.language +
+      "&page" +
+      page +
+      `&query=${keyword}`
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+
+      renderListSearch(data);
+    });
+};
 
 const renderListSearch = (data) => {
-  const list = document.querySelector(".list__film");
   const items = data.results;
-  if (items == 0) {
-    const title = document.querySelector(".search__title");
-    title.innerHTML = `Không có kết quả cho từ khóa: <span class="search__keyword"></span>`;
-  }
+  const list = document.querySelector(".list__film");
+
   items.forEach((item, i) => {
     if (item.backdrop_path == null) {
       item.backdrop_path = item.poster_path;
@@ -65,42 +86,51 @@ const renderListSearch = (data) => {
         </li>
         `;
   });
+  keyWord(data);
 };
 
-const keyWord = () => {
-  const keywordText = document.querySelector(".search__keyword");
-  keywordText.innerHTML = keyword.replaceAll("%20", " ");
+const keyWord = (data) => {
+  console.log(keyword);
+  const title = document.querySelector(".search__title");
+  if (isKeyword) {
+    title.innerHTML = `Danh sách ${genresId}`;
+  } else {
+    if (data.results == 0) {
+      title.innerHTML = `Không có kết quả cho từ khóa: ${keyword}`;
+    } else {
+      title.innerHTML = `Từ khóa: ${keyword}`;
+    }
+  }
 };
 
-window.onload = () => {
-  navSearchDesktop();
-  navSearchMobile();
+const fetchFilterGenres = () => {
+  fetch(
+    api.genresList +
+      new URLSearchParams({
+        api_key: api.api_key,
+      }) +
+      api.language
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      listGenres(data);
+    });
 };
-
-fetch(
-  api.genresList +
-    new URLSearchParams({
-      api_key: api.api_key,
-    }) +
-    api.language
-)
-  .then((res) => res.json())
-  .then((data) => {
-    listGenres(data);
-  });
 
 const listGenres = (data) => {
   console.log(data);
   const genres = document.querySelector("#filter__item-genres");
   console.log(genres);
-  data.genres.forEach((item, i) => {
-    if (i == 0) {
-      genres.innerHTML += `
+  genres.innerHTML += `
       <option value> -- Thể loại -- </option>
       `;
-    } else {
+  data.genres.forEach((item, i) => {
+    if (item.id == genresId) {
+      genresId = item.name;
+    }
+    if (i <= 14) {
       genres.innerHTML += `
-        <option value="${item.id}">${item.name}</option>
+        <option value="${item.id}" href="/search.html?with_genres=${item.id}">${item.name}</option>
       `;
     }
   });
@@ -164,7 +194,16 @@ const filterYear = () => {
   }
 };
 
+const isKeyword = keyword.includes("?with_genres=");
+
+const checkSearch = () => {
+  if (isKeyword) return searchGenresId(genresId);
+  else return searchKeyword();
+};
+
 window.onload = () => {
+  fetchFilterGenres();
+  checkSearch();
   filterYear();
   navSearchDesktop();
   navSearchMobile();

@@ -27,15 +27,15 @@ const callAPI = (id) => {
       console.log(data.genres);
       data.genres.forEach((item, i) => {
         if (i < 11 && i !== 5 && i !== 6) {
-          console.log(item, i);
+          console.log(item.name, i);
           if (i % 2 == 0) {
-            setTimeout(fetchMoviesListByGenres(item.id, item.name), 300);
+            fetchMoviesListByGenres(item.id, item.name);
           } else {
-            setTimeout(fetchMoviesListByCardBig(item.id, item.name), 400);
+            fetchMoviesListByCardBig(item.id, item.name);
           }
         }
         if (i == 14) {
-          setTimeout(fetchMoviesListByCardBig(item.id, item.name), 1000);
+          fetchMoviesListByCardBig(item.id, item.name);
         }
       });
     });
@@ -53,18 +53,18 @@ const fetchMoviesListByCardBig = (id, genres) => {
   )
     .then((res) => res.json())
     .then((data) => {
-      makeCategoryElementBig(genres, data.results);
+      setTimeout(makeCategoryElementBig(genres, data.results, id), 400);
     })
     .catch((err) => console.log("err"));
 };
 
-const makeCategoryElementBig = (category, data) => {
+const makeCategoryElementBig = (category, data, id) => {
   mainRow.innerHTML += `
     <div class="col-12">
       <div class="section__movie-list">
         <div class="movie-category">
           <h1>${category}</h1>
-          <a href="/search.html?q=${category}" class="view-all">
+          <a href="/search.html?with_genres=${id}" class="view-all">
             Xem tất cả
             <i class="fa-solid fa-angles-right"></i>
           </a>
@@ -162,7 +162,7 @@ const fetchMoviesListByGenres = (id, genres) => {
     .then((res) => res.json())
     .then((data) => {
       console.log(data);
-      makeCategoryElementSlide(genres, data.results);
+      setTimeout(makeCategoryElementSlide(genres, data.results, id), 400);
     })
     .then((data) => {
       customCarousel.carousel(data);
@@ -170,13 +170,13 @@ const fetchMoviesListByGenres = (id, genres) => {
     .catch((err) => console.log("err"));
 };
 
-const makeCategoryElementSlide = (category, data) => {
+const makeCategoryElementSlide = (category, data, id) => {
   mainRow.innerHTML += `
     <div class="col-12">
       <div class="section__movie-list">
         <div class="movie-category">
           <h1>${category}</h1>
-          <a href="/search.html?q=${category}" class="view-all">
+          <a href="/search.html?with_genres=${id}" class="view-all">
             Xem tất cả
             <i class="fa-solid fa-angles-right"></i>
           </a>
@@ -215,6 +215,7 @@ const makeCardsSlide = (id, data) => {
     `;
   });
 };
+
 window.onload = () => {
   callAPI();
   navSearchMobile();

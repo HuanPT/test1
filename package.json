@@ -15,6 +15,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.2.1",
     "firebase": "^9.15.0",
-    "jquery": "^3.6.3"
+    "jquery": "^3.6.3",
+    "owl.carousel2": "^2.2.2"
   }
 }
