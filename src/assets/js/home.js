@@ -13,32 +13,64 @@ const main = document.querySelector(".main");
 const mainContainer = main.querySelector(".container");
 const mainRow = mainContainer.querySelector(".row");
 
-const callAPI = (id) => {
-  fetch(
+// const callAPI = (id) => {
+//   fetch(
+//     api.genresList +
+//       new URLSearchParams({
+//         api_key: api.api_key,
+//         with_genres: id,
+//       }) +
+//       api.language
+//   )
+//     .then((res) => res.json())
+//     .then((data) => {
+//       console.log(data.genres);
+//       data.genres.forEach((item, i) => {
+//         if (i < 11 && i !== 5 && i !== 6) {
+//           console.log(item.name, i);
+//           if (i % 2 == 0) {
+//             fetchMoviesListByGenres(item.id, item.name);
+//           } else {
+//             fetchMoviesListByCardBig(item.id, item.name);
+//           }
+//         }
+//         if (i == 14) {
+//           fetchMoviesListByCardBig(item.id, item.name);
+//         }
+//       });
+//     });
+// };
+
+const callAPI = async (id) => {
+  const response = await fetch(
     api.genresList +
       new URLSearchParams({
         api_key: api.api_key,
         with_genres: id,
       }) +
       api.language
-  )
-    .then((res) => res.json())
-    .then((data) => {
-      console.log(data.genres);
-      data.genres.forEach((item, i) => {
-        if (i < 11 && i !== 5 && i !== 6) {
-          console.log(item.name, i);
-          if (i % 2 == 0) {
-            fetchMoviesListByGenres(item.id, item.name);
-          } else {
-            fetchMoviesListByCardBig(item.id, item.name);
-          }
-        }
-        if (i == 14) {
-          fetchMoviesListByCardBig(item.id, item.name);
-        }
-      });
-    });
+  );
+  const data = await response.json();
+
+  let ids = [];
+  data.genres.forEach((item, i) => {
+    if (i < 11 && i !== 5 && i !== 6) {
+      ids.push(item.id);
+    }
+    if (i == 14) {
+      ids.push(item.id);
+    }
+  });
+
+  for (let i = 0; i < ids.length; i++) {
+    const genre = data.genres.find((genre) => genre.id === ids[i]);
+    console.log(genre.name, i);
+    if (i % 2 === 0) {
+      await fetchMoviesListByGenres(genre.id, genre.name);
+    } else {
+      await fetchMoviesListByCardBig(genre.id, genre.name);
+    }
+  }
 };
 
 const fetchMoviesListByCardBig = (id, genres) => {

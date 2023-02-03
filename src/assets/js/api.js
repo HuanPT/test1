@@ -17,6 +17,9 @@ export let imgProfileH632 = "https://image.tmdb.org/t/p/h632/";
 // Get link genres list
 export let genresList = "https://api.themoviedb.org/3/genre/movie/list?";
 
+export let linkSearch =
+  "https://api.themoviedb.org/3/search/movie?api_key=c8751049f036e1ffcfe761260613f948&language=vi&page=1&q=";
+
 // Get link country list
 export let countryList =
   "https://api.themoviedb.org/3/configuration/countries?";

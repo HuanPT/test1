@@ -9,13 +9,47 @@ import "@fortawesome/fontawesome-free/js/all.min.js";
 import "bootstrap/dist/js/bootstrap.min.js";
 
 import * as api from "./api.js";
-import { navSearchDesktop, navSearchMobile } from "./common";
+import { navSearchDesktop, navSearchMobile, backToTop } from "./common";
 
-let keyword = decodeURI(location.search.replace("?q=", ""));
+let keyword = decodeURI(location.search);
 
 let genresId = location.search.replace("?with_genres=", "");
 
-console.log(keyword, genresId);
+const searchTrendingDay = () => {
+  fetch(
+    api.trendingDay +
+      new URLSearchParams({
+        api_key: api.api_key,
+        page: page,
+      }) +
+      api.language
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      configPrevBtn(data);
+      configNextBtn(data);
+      renderListSearch(data);
+    });
+};
+
+const searchTrendingWeek = () => {
+  fetch(
+    api.trendingWeek +
+      new URLSearchParams({
+        api_key: api.api_key,
+        page: page,
+      }) +
+      api.language
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      configPrevBtn(data);
+      configNextBtn(data);
+      renderListSearch(data);
+    });
+};
 
 let page = 1;
 
@@ -31,7 +65,8 @@ const searchGenresId = (genresId) => {
   )
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
+      configPrevBtn(data);
+      configNextBtn(data);
       renderListSearch(data);
     });
 };
@@ -43,14 +78,16 @@ const searchKeyword = () => {
         api_key: api.api_key,
       }) +
       api.language +
-      "&page" +
+      "&page=" +
       page +
-      `&query=${keyword}`
+      `&query=${keyword.replace("?q=", "")}`
   )
     .then((res) => res.json())
     .then((data) => {
       console.log(data);
 
+      configPrevBtn(data);
+      configNextBtn(data);
       renderListSearch(data);
     });
 };
@@ -58,7 +95,7 @@ const searchKeyword = () => {
 const renderListSearch = (data) => {
   const items = data.results;
   const list = document.querySelector(".list__film");
-
+  list.innerHTML = "";
   items.forEach((item, i) => {
     if (item.backdrop_path == null) {
       item.backdrop_path = item.poster_path;
@@ -90,16 +127,26 @@ const renderListSearch = (data) => {
 };
 
 const keyWord = (data) => {
-  console.log(keyword);
   const title = document.querySelector(".search__title");
+
   if (isKeyword) {
-    title.innerHTML = `Danh sách ${genresId}`;
-  } else {
+    title.innerHTML = `Danh sách ${genresId.toLowerCase()}`;
+  }
+  if (isQuery) {
     if (data.results == 0) {
-      title.innerHTML = `Không có kết quả cho từ khóa: ${keyword}`;
+      title.innerHTML = `Không có kết quả cho từ khóa: ${keyword.replace(
+        "?q=",
+        ""
+      )}`;
     } else {
-      title.innerHTML = `Từ khóa: ${keyword}`;
+      title.innerHTML = `Từ khóa: ${keyword.replace("?q=", "")}`;
     }
+  }
+  if (isDay) {
+    title.innerHTML = `Danh sách phim HOT hôm nay:`;
+  }
+  if (isWeek) {
+    title.innerHTML = `Danh sách phim HOT tuần này:`;
   }
 };
 
@@ -195,15 +242,80 @@ const filterYear = () => {
 };
 
 const isKeyword = keyword.includes("?with_genres=");
+const isDay = keyword.includes("?day");
+const isQuery = keyword.includes("?q=");
+const isWeek = keyword.includes("?week");
 
 const checkSearch = () => {
   if (isKeyword) return searchGenresId(genresId);
-  else return searchKeyword();
+  if (isDay) return searchTrendingDay();
+  if (isQuery) return searchKeyword();
+  if (isWeek) return searchTrendingWeek();
+};
+
+const prevBtn = () => {
+  const currentPage = document.querySelector(".current-page");
+  const prevBtn = document.querySelector(".previous-page");
+  prevBtn.addEventListener("click", () => {
+    page--;
+    currentPage.innerHTML = page;
+    backToTop();
+    checkSearch();
+  });
+};
+
+const nextBtn = () => {
+  const currentPage = document.querySelector(".current-page");
+  const nextBtn = document.querySelector(".next-page");
+  nextBtn.addEventListener("click", () => {
+    page++;
+    currentPage.innerHTML = page;
+    backToTop();
+    checkSearch();
+  });
+};
+
+const configNextBtn = (data) => {
+  const prevBtn = document.querySelector(".previous-page");
+  const parentPrevBtn = prevBtn.closest("li");
+  const nextBtn = document.querySelector(".next-page");
+  const parentNextBtn = nextBtn.closest("li");
+
+  if (page > 1) {
+    parentPrevBtn.classList.remove("disabled");
+    parentPrevBtn.style.cursor = "pointer";
+  }
+  if (page == data.total_pages) {
+    parentNextBtn.classList.add("disabled");
+    parentNextBtn.style.cursor = "no-drop";
+  }
+};
+
+const configPrevBtn = (data) => {
+  const prevBtn = document.querySelector(".previous-page");
+  const parentPrevBtn = prevBtn.closest("li");
+  const nextBtn = document.querySelector(".next-page");
+  const parentNextBtn = nextBtn.closest("li");
+
+  if (page == 1) {
+    parentPrevBtn.classList.add("disabled");
+    parentPrevBtn.style.cursor = "no-drop";
+  }
+  if (page < data.total_pages) {
+    parentNextBtn.classList.remove("disabled");
+    parentNextBtn.style.cursor = "pointer";
+  }
+};
+
+const pagination = () => {
+  prevBtn();
+  nextBtn();
 };
 
 window.onload = () => {
   fetchFilterGenres();
   checkSearch();
+  pagination();
   filterYear();
   navSearchDesktop();
   navSearchMobile();

@@ -34,7 +34,26 @@ export const navMobile = () => {
   });
 };
 
+export function backToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+}
+
+export function getURLparams() {
+  let params = {};
+  let query = location.search.substring(1);
+  let vars = query.split("&");
+  for (let i = 0; i < vars.length; i++) {
+    let pair = vars[i].split("=");
+    params[pair[0]] = decodeURIComponent(pair[1]);
+  }
+  return params;
+}
+
 export function isEmail(value, message) {
   const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   return regex.test(value) ? undefined : message || "Trường này phải là email";
 }
+
