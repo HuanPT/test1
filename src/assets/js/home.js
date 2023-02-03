@@ -13,12 +13,11 @@ const main = document.querySelector(".main");
 const mainContainer = main.querySelector(".container");
 const mainRow = mainContainer.querySelector(".row");
 
-// const callAPI = (id) => {
+// const callAPI = () => {
 //   fetch(
 //     api.genresList +
 //       new URLSearchParams({
 //         api_key: api.api_key,
-//         with_genres: id,
 //       }) +
 //       api.language
 //   )
@@ -41,36 +40,34 @@ const mainRow = mainContainer.querySelector(".row");
 //     });
 // };
 
-const callAPI = async (id) => {
+const callAPI = async () => {
   const response = await fetch(
     api.genresList +
       new URLSearchParams({
         api_key: api.api_key,
-        with_genres: id,
       }) +
       api.language
   );
   const data = await response.json();
 
-  let ids = [];
+  console.log(data.genres);
+  const promises = [];
   data.genres.forEach((item, i) => {
     if (i < 11 && i !== 5 && i !== 6) {
-      ids.push(item.id);
+      console.log(item.name, i);
+      if (i % 2 == 0) {
+        promises.push(fetchMoviesListByGenres(item.id, item.name));
+      } else {
+        promises.push(fetchMoviesListByCardBig(item.id, item.name));
+      }
     }
     if (i == 14) {
-      ids.push(item.id);
+      promises.push(fetchMoviesListByCardBig(item.id, item.name));
     }
   });
 
-  for (let i = 0; i < ids.length; i++) {
-    const genre = data.genres.find((genre) => genre.id === ids[i]);
-    console.log(genre.name, i);
-    if (i % 2 === 0) {
-      await fetchMoviesListByGenres(genre.id, genre.name);
-    } else {
-      await fetchMoviesListByCardBig(genre.id, genre.name);
-    }
-  }
+  await Promise.all(promises);
+  // Render sau khi tất cả các hàm đã hoàn thành.
 };
 
 const fetchMoviesListByCardBig = (id, genres) => {
@@ -85,7 +82,7 @@ const fetchMoviesListByCardBig = (id, genres) => {
   )
     .then((res) => res.json())
     .then((data) => {
-      setTimeout(makeCategoryElementBig(genres, data.results, id), 400);
+      makeCategoryElementBig(genres, data.results, id);
     })
     .catch((err) => console.log("err"));
 };
@@ -194,7 +191,7 @@ const fetchMoviesListByGenres = (id, genres) => {
     .then((res) => res.json())
     .then((data) => {
       console.log(data);
-      setTimeout(makeCategoryElementSlide(genres, data.results, id), 400);
+      makeCategoryElementSlide(genres, data.results, id);
     })
     .then((data) => {
       customCarousel.carousel(data);
