@@ -49,9 +49,13 @@ video {
 }
 
 .header {
-    padding: 1rem 0;
-    position: relative;
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    padding-block: 1rem;
+    width: 100%;
     background: transparent;
+    transition: all ease-out .3s;
 }
 
 .container {
@@ -319,7 +323,7 @@ video {
     color: var(--blue-color);
 }
 
-.btn-down-app a {
+.btn__down-app a {
     font-size: 1.8rem;
     line-height: 4rem;
     text-decoration: none;
@@ -327,7 +331,7 @@ video {
     font-weight: 500;
 }
 
-.btn.btn-down-app {
+.btn.btn__down-app {
     /* width: 150px; */
     white-space: nowrap;
     align-self: center;
@@ -367,8 +371,7 @@ video {
     top: 50%;
     right: 5%;
     position: absolute;
-    transform: translateY(-50%);
-    transition: all ease-in 0.15s;
+    transform: translateY(-50%) rotate(0deg);
 }
 
 .section__faq-list .answers {
@@ -376,7 +379,7 @@ video {
     text-align: left;
     overflow: hidden;
     background: #303030;
-    transition: max-height ease-in-out 0.25s;
+    transition: max-height ease-in-out .3s;
 }
 
 .section__faq-list .answers span {
@@ -386,6 +389,7 @@ video {
 
 .open-answers {
     max-height: 1200px !important;
+    transition: max-height ease-in-out .3s;
 }
 
 .rotate-icon {

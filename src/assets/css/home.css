@@ -75,9 +75,10 @@ video {
 }
 
 .header {
-    position: relative;
+    position: fixed;
+    width: 100%;
+    top: 0;
     padding: 1rem 0;
-    background: #000;
 }
 
 .container {
@@ -217,7 +218,6 @@ a.btn-red {
     display: flex;
     position: relative;
     align-items: center;
-    background: #000;
     justify-content: space-between;
 }
 
@@ -369,8 +369,6 @@ a.btn-red {
     z-index: 2;
 }
 
-
-
 .triangle {
     top: 33%;
     width: 0;
@@ -401,6 +399,10 @@ a.btn-red {
 }
 
 /* Main/.Start */
+.main {
+    padding-top: 60px;
+}
+
 .section__movie-list {
     padding: 3rem .75rem;
 }

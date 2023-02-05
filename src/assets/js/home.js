@@ -7,7 +7,12 @@ import "@fortawesome/fontawesome-free/js/all.min.js";
 import "bootstrap/dist/js/bootstrap.min.js";
 import * as customCarousel from "./customCarousel.js";
 
-import { navSearchDesktop, navSearchMobile, navMobile } from "./common";
+import {
+  navSearchDesktop,
+  navSearchMobile,
+  navMobile,
+  headerOnTop,
+} from "./common";
 const header = document.querySelector("header");
 const main = document.querySelector(".main");
 const mainContainer = main.querySelector(".container");
@@ -226,4 +231,6 @@ window.onload = () => {
   navSearchMobile();
   navSearchDesktop();
   navMobile();
+
+  headerOnTop();
 };

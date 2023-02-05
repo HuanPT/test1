@@ -14,7 +14,12 @@ import "@fortawesome/fontawesome-free/js/all.min.js";
 import "bootstrap/dist/js/bootstrap.min.js";
 
 import * as api from "./api.js";
-import { navSearchDesktop, navSearchMobile } from "./common";
+import {
+  navSearchDesktop,
+  navSearchMobile,
+  navMobile,
+  headerOnTop,
+} from "./common";
 
 let personId = location.search.replace("?", "");
 // console.log(movieId);
@@ -137,4 +142,6 @@ const cardMovie = (data) => {
 window.onload = () => {
   navSearchDesktop();
   navSearchMobile();
+  headerOnTop();
+  navMobile();
 };

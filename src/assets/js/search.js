@@ -9,7 +9,12 @@ import "@fortawesome/fontawesome-free/js/all.min.js";
 import "bootstrap/dist/js/bootstrap.min.js";
 
 import * as api from "./api.js";
-import { navSearchDesktop, navSearchMobile, backToTop } from "./common";
+import {
+  navSearchDesktop,
+  navSearchMobile,
+  backToTop,
+  headerOnTop,
+} from "./common";
 
 let keyword = decodeURI(location.search);
 
@@ -319,4 +324,5 @@ window.onload = () => {
   filterYear();
   navSearchDesktop();
   navSearchMobile();
+  headerOnTop();
 };

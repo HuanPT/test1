@@ -10,7 +10,12 @@ import "bootstrap/dist/js/bootstrap.min.js";
 import * as api from "./api.js";
 import * as customCarousel from "./customCarousel.js";
 
-import { navSearchDesktop, navSearchMobile, navMobile } from "./common.js";
+import {
+  navSearchDesktop,
+  navSearchMobile,
+  navMobile,
+  headerOnTop,
+} from "./common.js";
 
 let movieId = location.search.replace("?", "");
 // console.log(movieId);
@@ -332,4 +337,5 @@ window.onload = () => {
   navSearchDesktop();
   navSearchMobile();
   navMobile();
+  headerOnTop();
 };

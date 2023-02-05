@@ -41,6 +41,32 @@ export function backToTop() {
   });
 }
 
+export function headerOnTop() {
+  const header = document.querySelector("header");
+  let height = 0,
+    currentHeight;
+
+  window.addEventListener("scroll", () => {
+    currentHeight = document.documentElement.scrollTop;
+    if (height < currentHeight) {
+      header.style.top = "-70px";
+      height = currentHeight;
+    } else {
+      header.style.top = "0";
+
+      currentHeight == 80
+        ? (header.style.background = "transparent")
+        : (header.style.background = "#131313");
+
+      height = currentHeight;
+    }
+    if (currentHeight == 0) {
+      header.style.top = "0";
+      header.style.background = "transparent";
+    }
+  });
+}
+
 export function getURLparams() {
   let params = {};
   let query = location.search.substring(1);
@@ -56,4 +82,3 @@ export function isEmail(value, message) {
   const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   return regex.test(value) ? undefined : message || "Trường này phải là email";
 }
-

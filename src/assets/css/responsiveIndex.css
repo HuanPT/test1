@@ -18,7 +18,7 @@
         font-size: 4rem;
     }
 
-    .btn-down-app a,
+    .btn__down-app a,
     .section__card-text-subtitle {
         font-size: 2rem;
     }
@@ -73,17 +73,17 @@
         padding: 0 2rem 0 0;
     }
 
-    .btn.btn-down-app {
+    .btn.btn__down-app {
         margin: 1rem 0;
         align-self: flex-start;
-        width: 220px;
+        padding-inline: 2rem;
     }
 
     .section__card-text .section__card-text-title {
         font-size: 5rem;
     }
 
-    .btn-down-app a,
+    .btn__down-app a,
     .section__card-text-subtitle {
         font-size: 2.6rem;
     }
@@ -164,7 +164,7 @@
 @media screen and (min-width: 950px) {
 
     .header__top-logo img {
-        height: 6rem;
+        height: 5rem;
     }
 
     .header__top-wrap {
