@@ -28,9 +28,7 @@ fetch(
 )
   .then((res) => res.json())
   .then((data) => {
-    // console.log(data);
     setupMovieInfo(data);
-    // customCarousel.carousel();
     favorite();
     bookmark();
   })

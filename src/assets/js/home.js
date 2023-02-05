@@ -13,65 +13,51 @@ const main = document.querySelector(".main");
 const mainContainer = main.querySelector(".container");
 const mainRow = mainContainer.querySelector(".row");
 
-// const callAPI = () => {
-//   fetch(
-//     api.genresList +
-//       new URLSearchParams({
-//         api_key: api.api_key,
-//       }) +
-//       api.language
-//   )
-//     .then((res) => res.json())
-//     .then((data) => {
-//       console.log(data.genres);
-//       data.genres.forEach((item, i) => {
-//         if (i < 11 && i !== 5 && i !== 6) {
-//           console.log(item.name, i);
-//           if (i % 2 == 0) {
-//             fetchMoviesListByGenres(item.id, item.name);
-//           } else {
-//             fetchMoviesListByCardBig(item.id, item.name);
-//           }
-//         }
-//         if (i == 14) {
-//           fetchMoviesListByCardBig(item.id, item.name);
-//         }
-//       });
-//     });
-// };
+let genres = [
+  {
+    id: 28,
+    name: "Phim Hành Động",
+  },
+  {
+    id: 12,
+    name: "Phim Phiêu Lưu",
+  },
+  {
+    id: 16,
+    name: "Phim Hoạt Hình",
+  },
+  {
+    id: 35,
+    name: "Phim Hài",
+  },
+  {
+    id: 10751,
+    name: "Phim Gia Đình",
+  },
+  {
+    id: 14,
+    name: "Phim Giả Tượng",
+  },
+  {
+    id: 36,
+    name: "Phim Lịch Sử",
+  },
+  {
+    id: 27,
+    name: "Phim Kinh Dị",
+  },
+  {
+    id: 9648,
+    name: "Phim Bí Ẩn",
+  },
+  {
+    id: 878,
+    name: "Phim Khoa Học Viễn Tưởng",
+  },
+];
 
-const callAPI = async () => {
-  const response = await fetch(
-    api.genresList +
-      new URLSearchParams({
-        api_key: api.api_key,
-      }) +
-      api.language
-  );
-  const data = await response.json();
-
-  console.log(data.genres);
-  const promises = [];
-  data.genres.forEach((item, i) => {
-    if (i < 11 && i !== 5 && i !== 6) {
-      console.log(item.name, i);
-      if (i % 2 == 0) {
-        promises.push(fetchMoviesListByGenres(item.id, item.name));
-      } else {
-        promises.push(fetchMoviesListByCardBig(item.id, item.name));
-      }
-    }
-    if (i == 14) {
-      promises.push(fetchMoviesListByCardBig(item.id, item.name));
-    }
-  });
-
-  await Promise.all(promises);
-  // Render sau khi tất cả các hàm đã hoàn thành.
-};
-
-const fetchMoviesListByCardBig = (id, genres) => {
-  fetch(
+const fetchMoviesListByGenres = (id) => {
+  return fetch(
     api.movieGenresLink +
       new URLSearchParams({
         api_key: api.api_key,
@@ -81,10 +67,21 @@ const fetchMoviesListByCardBig = (id, genres) => {
       api.language
   )
     .then((res) => res.json())
-    .then((data) => {
-      makeCategoryElementBig(genres, data.results, id);
-    })
-    .catch((err) => console.log("err"));
+    .then((data) => data.results);
+};
+
+const callAPI = () => {
+  const promises = genres.map((genre) => fetchMoviesListByGenres(genre.id));
+  Promise.all(promises).then((dataArray) => {
+    dataArray.forEach((data, i) => {
+      if (i % 2 === 0) {
+        makeCategoryElementSlide(genres[i].name, data, genres[i].id);
+        customCarousel.carousel(data);
+      } else {
+        makeCategoryElementBig(genres[i].name, data, genres[i].id);
+      }
+    });
+  });
 };
 
 const makeCategoryElementBig = (category, data, id) => {
@@ -161,7 +158,7 @@ const makeCardsBig = (id, data) => {
       }
       if (i > 6 && i <= 10) {
         movieContainer.innerHTML += `
-          <div class="col-6 col-md-3">
+          <div class="col-6 col-md-3 gy-3">
             <div class="card__movie">
               <a href="/movie.html?${item.id}" title="${item.title}">
                 <img src="${api.imgUrlW533}${item.backdrop_path}" alt="${item.title}">
@@ -176,27 +173,6 @@ const makeCardsBig = (id, data) => {
       }
     }
   });
-};
-
-const fetchMoviesListByGenres = (id, genres) => {
-  fetch(
-    api.movieGenresLink +
-      new URLSearchParams({
-        api_key: api.api_key,
-        with_genres: id,
-        page: Math.floor(Math.random() * 3) + 1,
-      }) +
-      api.language
-  )
-    .then((res) => res.json())
-    .then((data) => {
-      console.log(data);
-      makeCategoryElementSlide(genres, data.results, id);
-    })
-    .then((data) => {
-      customCarousel.carousel(data);
-    })
-    .catch((err) => console.log("err"));
 };
 
 const makeCategoryElementSlide = (category, data, id) => {
