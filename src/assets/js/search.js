@@ -20,6 +20,8 @@ let keyword = decodeURI(location.search);
 
 let genresId = location.search.replace("?with_genres=", "");
 
+let getYear = location.search.replace("?primary_release_year=", "");
+
 const searchTrendingDay = () => {
   fetch(
     api.trendingDay +
@@ -32,8 +34,6 @@ const searchTrendingDay = () => {
     .then((res) => res.json())
     .then((data) => {
       console.log(data);
-      configPrevBtn(data);
-      configNextBtn(data);
       renderListSearch(data);
     });
 };
@@ -50,8 +50,6 @@ const searchTrendingWeek = () => {
     .then((res) => res.json())
     .then((data) => {
       console.log(data);
-      configPrevBtn(data);
-      configNextBtn(data);
       renderListSearch(data);
     });
 };
@@ -70,8 +68,6 @@ const searchGenresId = (genresId) => {
   )
     .then((res) => res.json())
     .then((data) => {
-      configPrevBtn(data);
-      configNextBtn(data);
       renderListSearch(data);
     });
 };
@@ -91,8 +87,6 @@ const searchKeyword = () => {
     .then((data) => {
       console.log(data);
 
-      configPrevBtn(data);
-      configNextBtn(data);
       renderListSearch(data);
     });
 };
@@ -129,29 +123,34 @@ const renderListSearch = (data) => {
         `;
   });
   keyWord(data);
+  configPrevBtn(data);
+  configNextBtn(data);
 };
 
 const keyWord = (data) => {
   const title = document.querySelector(".search__title");
 
   if (isKeyword) {
-    title.innerHTML = `Danh sách ${genresId.toLowerCase()}`;
+    return (title.innerHTML = `Danh sách ${genresId.toLowerCase()}:`);
   }
   if (isQuery) {
     if (data.results == 0) {
-      title.innerHTML = `Không có kết quả cho từ khóa: ${keyword.replace(
+      return (title.innerHTML = `Không có kết quả cho từ khóa: ${keyword.replace(
         "?q=",
         ""
-      )}`;
+      )}`);
     } else {
-      title.innerHTML = `Từ khóa: ${keyword.replace("?q=", "")}`;
+      return (title.innerHTML = `Từ khóa: ${keyword.replace("?q=", "")}`);
     }
   }
   if (isDay) {
-    title.innerHTML = `Danh sách phim HOT hôm nay:`;
+    return (title.innerHTML = `Danh sách phim HOT hôm nay:`);
   }
   if (isWeek) {
-    title.innerHTML = `Danh sách phim HOT tuần này:`;
+    return (title.innerHTML = `Danh sách phim HOT tuần này:`);
+  }
+  if (isYear) {
+    return (title.innerHTML = `Danh sách phim năm ${getYear}:`);
   }
 };
 
@@ -170,9 +169,7 @@ const fetchFilterGenres = () => {
 };
 
 const listGenres = (data) => {
-  console.log(data);
   const genres = document.querySelector("#filter__item-genres");
-  console.log(genres);
   genres.innerHTML += `
       <option value> -- Thể loại -- </option>
       `;
@@ -181,10 +178,20 @@ const listGenres = (data) => {
       genresId = item.name;
     }
     if (i <= 14) {
+      if (item.id == genresId || genresId == item.name) {
+        genres.innerHTML += `
+        <option value="${item.id}" selected>${item.name}</option>
+      `;
+      }
       genres.innerHTML += `
-        <option value="${item.id}" href="/search.html?with_genres=${item.id}">${item.name}</option>
+        <option value="${item.id}">${item.name}</option>
       `;
     }
+  });
+  genres.addEventListener("change", (e) => {
+    console.log(e.target.value);
+    console.log(e.target);
+    window.location.href = `./search.html?with_genres=${e.target.value}`;
   });
 };
 
@@ -229,33 +236,68 @@ const filterCountry = (data) => {
 
 const filterYear = () => {
   const year = document.querySelector("#filter__item-years");
-  for (let i = 2023; i > 2011; i--) {
-    if (i == 2023) {
-      year.innerHTML += `
+  year.innerHTML += `
       <option value> -- Năm -- </option>
       `;
-    } else if (i < 2023 && i > 2012) {
-      year.innerHTML += `
-       <option value="${i}">${i}</option>
+  for (let i = 2023; i > 2012; i--) {
+    console.log(i);
+    if (i > 2013) {
+      if (getYear == i) {
+        year.innerHTML += `
+       <option value="${i}" selected>${i}</option>
       `;
+      } else {
+        year.innerHTML += `
+         <option value="${i}">${i}</option>
+        `;
+      }
     } else {
-      year.innerHTML += `
-       <option value="${i}">trước ${i}</option>
+      if (getYear <= i) {
+        year.innerHTML += `
+       <option value="${i}" selected>trước ${i + 1}</option>
       `;
+      } else {
+        year.innerHTML += `
+       <option value="${i}">trước ${i + 1}</option>
+      `;
+      }
     }
   }
+  year.addEventListener("change", (e) => {
+    window.location.href = `./search.html?primary_release_year=${e.target.value}`;
+  });
+};
+
+const searchYear = (getYear) => {
+  return fetch(
+    api.movieGenresLink +
+      new URLSearchParams({
+        api_key: api.api_key,
+        page: page,
+      }) +
+      "&primary_release_year=" +
+      getYear +
+      api.language
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      renderListSearch(data);
+    });
 };
 
 const isKeyword = keyword.includes("?with_genres=");
 const isDay = keyword.includes("?day");
 const isQuery = keyword.includes("?q=");
 const isWeek = keyword.includes("?week");
+const isYear = keyword.includes("?primary_release_year=");
 
 const checkSearch = () => {
   if (isKeyword) return searchGenresId(genresId);
   if (isDay) return searchTrendingDay();
   if (isQuery) return searchKeyword();
   if (isWeek) return searchTrendingWeek();
+  if (isYear) return searchYear(getYear);
 };
 
 const prevBtn = () => {
@@ -290,7 +332,7 @@ const configNextBtn = (data) => {
     parentPrevBtn.classList.remove("disabled");
     parentPrevBtn.style.cursor = "pointer";
   }
-  if (page == data.total_pages) {
+  if (page == data.total_pages || data.total_pages <= 1) {
     parentNextBtn.classList.add("disabled");
     parentNextBtn.style.cursor = "no-drop";
   }

@@ -18,7 +18,7 @@ import {
 } from "./common.js";
 
 let movieId = location.search.replace("?", "");
-// console.log(movieId);
+console.log(movieId);
 
 const formatString = (currentIndex, maxIndex) => {
   return currentIndex == maxIndex - 1 ? "" : ", ";
@@ -123,8 +123,6 @@ const movieName = (data) => {
 };
 
 const movieInfo = (data) => {
-  //   const movieInfo = document.querySelector(".movie__info");
-
   infoRelease(data);
   infoGenres(data);
   infoCountry(data);
@@ -137,7 +135,7 @@ const infoRelease = (data) => {
   const release = document.querySelector(".release");
   let year = data.release_date.split("-")[0];
   release.innerHTML = year;
-  release.href = `./search.html?q=${year}`;
+  release.href = `./search.html?primary_release_year=${year}`;
 };
 
 const infoGenres = (data) => {
@@ -207,7 +205,7 @@ const editor = (data) => {
   if (length == 0) editor.innerHTML += "Đang xác minh";
   for (let i = 0; i < length; i++) {
     editor.innerHTML += `
-      <a href="./search?q=${editors[i].name}">${
+      <a href="./search.html?q=${editors[i].name}">${
       editors[i].name
     }</a>${formatString(i, length)}
     `;
@@ -217,15 +215,18 @@ const editor = (data) => {
 const cast = (data) => {
   const cast = document.querySelector(".cast");
   const actor = data.cast;
-  // console.log(actor);
-  for (let i = 0; i < 10; i++) {
-    if (actor[i].profile_path !== null) {
-      // item.backdrop_path = item.poster_path;
-      // if (item.backdrop_path == null) {
-      //   return;
-      // }
-      // continue;
-      cast.innerHTML += `
+  const len = actor.length;
+
+  if (len == 0) {
+    cast.style.justifyContent = "flex-start";
+    return (cast.innerHTML = `
+      Diễn viên đang được cập nhật.
+    `);
+  } else {
+    if (len < 10) {
+      for (let i = 0; i < len; i++) {
+        if (actor[i].profile_path !== null) {
+          cast.innerHTML += `
       <a href="./person.html?${actor[i].id}" class="actor">
         <div class="actor__img">
           <img src="${api.imgProfileW185}${actor[i].profile_path}" alt="${actor[i].name}">
@@ -235,6 +236,23 @@ const cast = (data) => {
         </div>
       </a>
     `;
+        }
+      }
+    } else {
+      for (let i = 0; i < 10; i++) {
+        if (actor[i].profile_path !== null) {
+          cast.innerHTML += `
+      <a href="./person.html?${actor[i].id}" class="actor">
+        <div class="actor__img">
+          <img src="${api.imgProfileW185}${actor[i].profile_path}" alt="${actor[i].name}">
+        </div>
+        <div class="actor__name">
+          <p>${actor[i].name}</p>
+        </div>
+      </a>
+    `;
+        }
+      }
     }
   }
 };
@@ -243,9 +261,11 @@ const overview = (data) => {
   const overview = document.querySelector(".overview");
   const detailOverview = (data) => {
     let detailOverview = data.overview;
-    if (data.overview == "") detailOverview = "Nội dung chưa được chia sẻ";
+    if (detailOverview == "")
+      detailOverview = "Nội dung sẽ được cập nhật trong thời gian sớm nhất.";
     return detailOverview;
   };
+
   const p = document.createElement("p");
   p.innerHTML = `
   <b>${data.original_title}</b>. ${detailOverview(data)}
@@ -268,10 +288,17 @@ fetch(
 
     let maxTrailer = data.results.length > 4 ? 4 : data.results.length;
     item.classList.add("item");
-
+    if (maxTrailer == 0) {
+      const overview = document.createElement("div");
+      overview.classList.add("overview");
+      wrapIframe.appendChild(overview);
+      return (overview.innerHTML = `
+        <p>Trailer sẽ được cập nhật trong thời gian sớm nhất.</p>
+      `);
+    }
     for (let i = 0; i < maxTrailer; i++) {
       item.innerHTML += `
-      <iframe src="http://youtube.com/embed/${data.results[i].key}" title="YouTube video player" frameborder="0"
+      <iframe src="https://youtube.com/embed/${data.results[i].key}" title="YouTube video player" frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen>
       </iframe>
@@ -295,10 +322,19 @@ fetch(
     const result = data.results;
     const slide = document.createElement("div");
     slide.classList.add("owl-carousel", "owl-theme", "nominated-slide");
-    console.log(result[0].id);
-    for (let i = 0; i < 10; i++) {
-      if (result[i].backdrop_path !== null) {
-        slide.innerHTML += `
+    const length = result.length;
+    if (length == 0) {
+      const overview = document.createElement("div");
+      overview.classList.add("overview");
+
+      container.appendChild(overview);
+      overview.innerHTML = `
+        <p>Chưa có đề xuất cho bạn.</p>
+      `;
+    } else if (length < 10) {
+      for (let i = 0; i < length; i++) {
+        if (result[i].backdrop_path !== null) {
+          slide.innerHTML += `
           <div class="item">
             <div class="card__movie">
               <a href="/movie.html?${result[i].id}">
@@ -311,6 +347,25 @@ fetch(
             </div>
           </div>
         `;
+        }
+      }
+    } else {
+      for (let i = 0; i < 10; i++) {
+        if (result[i].backdrop_path !== null) {
+          slide.innerHTML += `
+          <div class="item">
+            <div class="card__movie">
+              <a href="/movie.html?${result[i].id}">
+                <img src="${api.imgUrlW533}${result[i].backdrop_path}" alt="${result[i].title}">
+                <p class="movie-title">${result[i].title}</p>
+                <div class="icon-play">
+                  <i class="fa-solid fa-play"></i>
+                </div>
+              </a>
+            </div>
+          </div>
+        `;
+        }
       }
     }
     container.append(slide);

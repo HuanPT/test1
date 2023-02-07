@@ -146,7 +146,7 @@ const makeCardsBig = (id, data) => {
         </div>
         `;
       }
-      if (i > 0 && i < 7) {
+      if (i > 0 && i < 4) {
         rowG2.innerHTML += `
           <div class="col-6 col-md-4">
             <div class="card__movie">
@@ -160,6 +160,20 @@ const makeCardsBig = (id, data) => {
             </div>
           </div>
         `;
+      }
+      if (i > 3 && i < 7) {
+        rowG2.innerHTML += `
+          <div class="col-6 col-md-4 gy-3">
+            <div class="card__movie">
+              <a href="/movie.html?${item.id}" title="${item.title}">
+                <img src="${api.imgUrlW533}${item.backdrop_path}" alt="${item.title}">
+                <p class="movie-title">${item.title}</p>
+                <div class="icon-play">
+                  <i class="fa-solid fa-play"></i>
+                </div>
+              </a>
+            </div>
+          </div>`;
       }
       if (i > 6 && i <= 10) {
         movieContainer.innerHTML += `

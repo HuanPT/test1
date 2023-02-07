@@ -44,5 +44,3 @@ export let trendingWeek = "https://api.themoviedb.org/3/trending/movie/week?";
 
 export let searchMovie = "https://api.themoviedb.org/3/search/movie?";
 
-export let filterYear =
-  "https://api.themoviedb.org/3/discover/movie?api_key=c8751049f036e1ffcfe761260613f948";
