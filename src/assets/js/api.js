@@ -17,9 +17,6 @@ export let imgProfileH632 = "https://image.tmdb.org/t/p/h632/";
 // Get link genres list
 export let genresList = "https://api.themoviedb.org/3/genre/movie/list?";
 
-export let linkSearch =
-  "https://api.themoviedb.org/3/search/movie?api_key=c8751049f036e1ffcfe761260613f948&language=vi&page=1&q=";
-
 // Get link country list
 export let countryList =
   "https://api.themoviedb.org/3/configuration/countries?";
@@ -38,9 +35,15 @@ export let searchUrl = "https://api.themoviedb.org/3/search/multi?";
 
 export let language = "&language=vi-VN";
 
-export let trendingDay = "https://api.themoviedb.org/3/trending/movie/day?";
+export let trendingDay =
+  "https://api.themoviedb.org/3/trending/movie/day?api_key=c8751049f036e1ffcfe761260613f948&language=vi";
 
-export let trendingWeek = "https://api.themoviedb.org/3/trending/movie/week?";
+export let trendingWeek =
+  "https://api.themoviedb.org/3/trending/movie/week?api_key=c8751049f036e1ffcfe761260613f948&language=vi";
 
 export let searchMovie = "https://api.themoviedb.org/3/search/movie?";
 
+export let searchCountry = "&with_origin_country=";
+
+export let popular =
+  "https://api.themoviedb.org/3/movie/popular?api_key=c8751049f036e1ffcfe761260613f948&language=vi";

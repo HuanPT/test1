@@ -135,7 +135,7 @@ const infoRelease = (data) => {
   const release = document.querySelector(".release");
   let year = data.release_date.split("-")[0];
   release.innerHTML = year;
-  release.href = `./search.html?primary_release_year=${year}`;
+  release.href = `./search.html?primary_release_year=${year}&page=1`;
 };
 
 const infoGenres = (data) => {
@@ -143,7 +143,7 @@ const infoGenres = (data) => {
   let length = data.genres.length;
   for (let i = 0; i < length; i++) {
     genresDiv.innerHTML += `
-        <a href="/search.html?with_genres=${data.genres[i].id}">${
+        <a href="/search.html?with_genres=${data.genres[i].id}&page=1">${
       data.genres[i].name
     }</a>${formatString(i, length)}
     `;
@@ -152,12 +152,13 @@ const infoGenres = (data) => {
 
 const infoCountry = (data) => {
   const genresDiv = document.querySelector(".countries");
+  console.log(data);
   let length = data.production_countries.length;
   for (let i = 0; i < length; i++) {
     genresDiv.innerHTML += `
-        <a href="/search.html?q=${data.production_countries[i].iso_3166_1}">${
-      data.production_countries[i].name
-    }</a>${formatString(i, length)}
+        <a href="/search.html?with_origin_country=${
+          data.production_countries[i].iso_3166_1
+        }">${data.production_countries[i].name}</a>${formatString(i, length)}
     `;
   }
 };

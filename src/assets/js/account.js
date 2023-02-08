@@ -14,6 +14,7 @@ import {
   navSearchMobile,
   navMobile,
   headerOnTop,
+  selectedHash,
 } from "./common.js";
 
 window.onload = () => {
@@ -21,4 +22,5 @@ window.onload = () => {
   navSearchMobile();
   navMobile();
   headerOnTop();
+  selectedHash();
 };

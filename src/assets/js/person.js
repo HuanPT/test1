@@ -117,7 +117,7 @@ const cardMovie = (data) => {
     ) {
       ul.innerHTML += `
         <li class="card__movie">
-            <a href="./movie.html?${listCast[i].id}" class="d-block d-md-none">
+            <a href="./movie.html?${listCast[i].id}" title="${listCast[i].title}" class="d-block d-md-none">
                 <img src="${api.imgUrlW533}${listCast[i].backdrop_path}"
                     alt="${listCast[i].title}">
                 <p class="movie-title">${listCast[i].title}</p>
@@ -125,7 +125,7 @@ const cardMovie = (data) => {
                     <i class="fa-solid fa-play"></i>
                 </div>
             </a>
-            <a href="./movie.html?${listCast[i].id}" class="d-none d-md-block">
+            <a href="./movie.html?${listCast[i].id}" title="${listCast[i].title}" class="d-none d-md-block">
                 <img src="${api.imgUrlW220}${listCast[i].poster_path}"
                     alt="${listCast[i].title}">
                 <p class="movie-title">${listCast[i].title}</p>

@@ -14,23 +14,82 @@ import {
   navSearchMobile,
   backToTop,
   headerOnTop,
+  getURLparams,
 } from "./common";
 
-let keyword = decodeURI(location.search);
+let countries = [
+  {
+    iso_3166_1: "US",
+    native_name: "Hoa Kỳ",
+  },
+  {
+    iso_3166_1: "GB",
+    native_name: "Vương quốc Anh",
+  },
+  {
+    iso_3166_1: "IN",
+    native_name: "Ấn Độ",
+  },
+  {
+    iso_3166_1: "CN",
+    native_name: "Trung Quốc",
+  },
+  {
+    iso_3166_1: "TH",
+    native_name: "Thái Lan",
+  },
+  {
+    iso_3166_1: "JP",
+    native_name: "Nhật Bản",
+  },
+  {
+    iso_3166_1: "TW",
+    native_name: "Đài Loan",
+  },
+];
 
-let genresId = location.search.replace("?with_genres=", "");
+let page = 1;
 
-let getYear = location.search.replace("?primary_release_year=", "");
+let params = getURLparams();
+console.log(typeof params);
 
-const searchTrendingDay = () => {
-  fetch(
-    api.trendingDay +
+let keyword = params.q;
+
+let genresId = params.with_genres;
+
+let getYear = params.primary_release_year;
+
+let getCountry = params.with_origin_country;
+
+const isQuery = "q" in params;
+const isDay = "day" in params;
+const isWeek = "week" in params;
+const isLatest = "latest" in params;
+const isGenres = "with_genres" in params;
+const isYear = "primary_release_year" in params;
+const isCountry = "with_origin_country" in params;
+
+console.log(isGenres, isDay, isQuery, isWeek, isYear, isCountry);
+
+const searchKeyword = () => {
+  return fetch(
+    api.searchMovie +
       new URLSearchParams({
         api_key: api.api_key,
-        page: page,
       }) +
-      api.language
+      api.language +
+      `&page=${page}&query=${keyword}`
   )
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+
+      renderListSearch(data);
+    });
+};
+
+const searchTrendingDay = () => {
+  return fetch(api.trendingDay + `&page=${page}`)
     .then((res) => res.json())
     .then((data) => {
       console.log(data);
@@ -39,14 +98,7 @@ const searchTrendingDay = () => {
 };
 
 const searchTrendingWeek = () => {
-  fetch(
-    api.trendingWeek +
-      new URLSearchParams({
-        api_key: api.api_key,
-        page: page,
-      }) +
-      api.language
-  )
+  return fetch(api.trendingWeek + `&page=${page}`)
     .then((res) => res.json())
     .then((data) => {
       console.log(data);
@@ -54,10 +106,17 @@ const searchTrendingWeek = () => {
     });
 };
 
-let page = 1;
+const searchLatest = () => {
+  return fetch(api.popular + `&page=${page}`)
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      renderListSearch(data);
+    });
+};
 
 const searchGenresId = (genresId) => {
-  fetch(
+  return fetch(
     api.movieGenresLink +
       new URLSearchParams({
         api_key: api.api_key,
@@ -72,23 +131,78 @@ const searchGenresId = (genresId) => {
     });
 };
 
-const searchKeyword = () => {
-  fetch(
-    api.searchMovie +
+const searchYear = (getYear) => {
+  return fetch(
+    api.movieGenresLink +
       new URLSearchParams({
         api_key: api.api_key,
+        page: page,
       }) +
-      api.language +
-      "&page=" +
-      page +
-      `&query=${keyword.replace("?q=", "")}`
+      "&primary_release_year=" +
+      getYear +
+      api.language
   )
     .then((res) => res.json())
     .then((data) => {
       console.log(data);
-
       renderListSearch(data);
     });
+};
+
+const searchCountry = () => {
+  return fetch(
+    api.movieGenresLink +
+      new URLSearchParams({
+        api_key: api.api_key,
+      }) +
+      api.searchCountry +
+      getCountry +
+      api.language
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      renderListSearch(data);
+    });
+};
+
+const keyWord = (data) => {
+  const title = document.querySelector(".search__title");
+  let country =
+    countries.find((item) => item.iso_3166_1 === getCountry) || false;
+  if (isQuery) {
+    if (data.results == 0) {
+      return (title.innerHTML = `Không có kết quả cho từ khóa: ${keyword}`);
+    } else {
+      return (title.innerHTML = `Từ khóa: ${keyword}`);
+    }
+  } else {
+    if (isDay) {
+      return (title.innerHTML = `Danh sách phim HOT hôm nay:`);
+    }
+    if (isGenres) {
+      return (title.innerHTML = `Danh sách ${genresId.toLowerCase()}:`);
+    }
+    if (isWeek) {
+      return (title.innerHTML = `Danh sách phim HOT tuần này:`);
+    }
+    if (isYear) {
+      return (title.innerHTML = `Danh sách phim năm ${getYear}:`);
+    }
+    if (isCountry) {
+      if (country)
+        return (title.innerHTML = `Danh sách phim của ${country.native_name}:`);
+      else return (title.innerHTML = `Danh sách phim của quốc gia khác:`);
+    }
+  }
+};
+
+const removeFilter = () => {
+  const btnRemove = document.querySelector("#remove__filter");
+
+  btnRemove.addEventListener("click", () => {
+    location.replace("?day");
+  });
 };
 
 const renderListSearch = (data) => {
@@ -127,33 +241,6 @@ const renderListSearch = (data) => {
   configNextBtn(data);
 };
 
-const keyWord = (data) => {
-  const title = document.querySelector(".search__title");
-
-  if (isKeyword) {
-    return (title.innerHTML = `Danh sách ${genresId.toLowerCase()}:`);
-  }
-  if (isQuery) {
-    if (data.results == 0) {
-      return (title.innerHTML = `Không có kết quả cho từ khóa: ${keyword.replace(
-        "?q=",
-        ""
-      )}`);
-    } else {
-      return (title.innerHTML = `Từ khóa: ${keyword.replace("?q=", "")}`);
-    }
-  }
-  if (isDay) {
-    return (title.innerHTML = `Danh sách phim HOT hôm nay:`);
-  }
-  if (isWeek) {
-    return (title.innerHTML = `Danh sách phim HOT tuần này:`);
-  }
-  if (isYear) {
-    return (title.innerHTML = `Danh sách phim năm ${getYear}:`);
-  }
-};
-
 const fetchFilterGenres = () => {
   fetch(
     api.genresList +
@@ -182,55 +269,57 @@ const listGenres = (data) => {
         genres.innerHTML += `
         <option value="${item.id}" selected>${item.name}</option>
       `;
-      }
-      genres.innerHTML += `
+      } else {
+        genres.innerHTML += `
         <option value="${item.id}">${item.name}</option>
-      `;
+        `;
+      }
     }
   });
   genres.addEventListener("change", (e) => {
     console.log(e.target.value);
     console.log(e.target);
-    window.location.href = `./search.html?with_genres=${e.target.value}`;
+    window.location.replace(`?with_genres=${e.target.value}`);
   });
 };
 
-fetch(
-  api.countryList +
-    new URLSearchParams({
-      api_key: api.api_key,
-    }) +
-    api.language
-)
-  .then((res) => res.json())
-  .then((data) => {
-    console.log(data);
-    filterCountry(data);
-  });
+// const fetchFilterCountry = () => {
+//   fetch(
+//     api.countryList +
+//       new URLSearchParams({
+//         api_key: api.api_key,
+//       }) +
+//       api.language
+//   )
+//     .then((res) => res.json())
+//     .then((data) => {
+//       console.log(data);
+//       listCountry(data);
+//     });
+// };
 
-const filterCountry = (data) => {
+const listCountry = (data) => {
   const country = document.querySelector("#filter__item-country");
-  console.log(country);
+
   country.innerHTML += `
     <option value> -- Quốc gia -- </option>
   `;
-  data.filter((item) => {
-    const codeItem = item.iso_3166_1;
-    if (
-      codeItem == "JP" ||
-      codeItem == "CN" ||
-      codeItem == "US" ||
-      codeItem == "KR" ||
-      codeItem == "GB" ||
-      codeItem == "IN" ||
-      codeItem == "TH" ||
-      codeItem == "TW"
-    ) {
-      console.log(item);
+  data.forEach((item) => {
+    let codeItem = item.iso_3166_1;
+
+    console.log(item);
+    if (codeItem == getCountry) {
       country.innerHTML += `
-        <option value="${codeItem}">${item.native_name}</option>
+      <option value="${codeItem}" selected>${item.native_name}</option>
       `;
+    } else {
+      country.innerHTML += `
+      <option value="${codeItem}">${item.native_name}</option>
+    `;
     }
+    country.addEventListener("change", (e) => {
+      window.location.href = `./search.html?with_origin_country=${e.target.value}`;
+    });
   });
 };
 
@@ -240,9 +329,8 @@ const filterYear = () => {
       <option value> -- Năm -- </option>
       `;
   for (let i = 2023; i > 2012; i--) {
-    console.log(i);
     if (i > 2013) {
-      if (getYear == i) {
+      if (getYear == i && getYear != "") {
         year.innerHTML += `
        <option value="${i}" selected>${i}</option>
       `;
@@ -252,7 +340,7 @@ const filterYear = () => {
         `;
       }
     } else {
-      if (getYear <= i) {
+      if (getYear <= i && getYear != "") {
         year.innerHTML += `
        <option value="${i}" selected>trước ${i + 1}</option>
       `;
@@ -268,36 +356,14 @@ const filterYear = () => {
   });
 };
 
-const searchYear = (getYear) => {
-  return fetch(
-    api.movieGenresLink +
-      new URLSearchParams({
-        api_key: api.api_key,
-        page: page,
-      }) +
-      "&primary_release_year=" +
-      getYear +
-      api.language
-  )
-    .then((res) => res.json())
-    .then((data) => {
-      console.log(data);
-      renderListSearch(data);
-    });
-};
-
-const isKeyword = keyword.includes("?with_genres=");
-const isDay = keyword.includes("?day");
-const isQuery = keyword.includes("?q=");
-const isWeek = keyword.includes("?week");
-const isYear = keyword.includes("?primary_release_year=");
-
 const checkSearch = () => {
-  if (isKeyword) return searchGenresId(genresId);
-  if (isDay) return searchTrendingDay();
   if (isQuery) return searchKeyword();
+  if (isDay) return searchTrendingDay();
   if (isWeek) return searchTrendingWeek();
+  if (isLatest) return searchLatest();
+  if (isGenres) return searchGenresId(genresId);
   if (isYear) return searchYear(getYear);
+  if (isCountry) return searchCountry(getCountry);
 };
 
 const prevBtn = () => {
@@ -360,6 +426,7 @@ const pagination = () => {
 };
 
 window.onload = () => {
+  listCountry(countries);
   fetchFilterGenres();
   checkSearch();
   pagination();
@@ -367,4 +434,5 @@ window.onload = () => {
   navSearchDesktop();
   navSearchMobile();
   headerOnTop();
+  removeFilter();
 };

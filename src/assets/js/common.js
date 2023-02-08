@@ -70,13 +70,25 @@ export function headerOnTop() {
 export function getURLparams() {
   let params = {};
   let query = location.search.substring(1);
+  console.log(query);
   let vars = query.split("&");
   for (let i = 0; i < vars.length; i++) {
     let pair = vars[i].split("=");
-    params[pair[0]] = decodeURIComponent(pair[1]);
+    if (pair.length === 1) {
+      params[pair[0]] = "";
+    } else {
+      params[pair[0]] = decodeURIComponent(pair[1]);
+    }
   }
   return params;
 }
+
+export const selectedHash = () => {
+  let hash = location.hash.substring(1);
+  console.log(hash);
+  const getHash = document.getElementById(hash);
+  getHash.click();
+};
 
 export function isEmail(value, message) {
   const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;

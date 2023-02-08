@@ -21,7 +21,7 @@
       <div class="row">
         <div class="col-12 d-md-none heade__Mobile">
           <div class="header__top-wrap">
-
+  
             <div class="header__search">
               <div class="dropdown">
                 <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton1"
@@ -38,17 +38,17 @@
                 </div>
               </div>
             </div>
-
+  
             <div class="header__top-logo">
               <a href="./home.html"><img src="./assets/img/paner.png" alt="logo"></a>
             </div>
-
+  
             <div class="header__navbars">
-
+  
               <div class="btn__navbars">
                 <i class="fa-solid fa-bars"></i>
               </div>
-
+  
               <div class="navbars__mobile-detail hidden">
                 <div class="overlay"></div>
                 <div class="navbars__mobile-wrap">
@@ -60,29 +60,29 @@
                       </div>
                     </div>
                   </div>
-
+  
                   <div class="navbars__mobile-main">
                     <ul class="navbars__mobile-list">
                       <li>
-                        <a href="./account.html" class="user-menu-item">
+                        <a href="./account.html#nav__profile-tab" class="user-menu-item">
                           <i class="fa-solid fa-circle-info"></i>
                           Tài khoản
                         </a>
                       </li>
                       <li>
-                        <a href="./account.html" class="user-menu-item">
+                        <a href="./account.html#nav__favorite-tab" class="user-menu-item">
                           <i class="fa-solid fa-heart"></i>
                           Phim yêu thích
                         </a>
                       </li>
                       <li>
-                        <a href="./account.html" class="user-menu-item">
+                        <a href="./account.html#nav__bookmark-tab" class="user-menu-item">
                           <i class="fa-solid fa-bookmark"></i>
                           Phim đã lưu
                         </a>
                       </li>
                       <li>
-                        <a href="./account.html" class="user-menu-item">
+                        <a href="./account.html#nav__history-tab" class="user-menu-item">
                           <i class="fa-solid fa-clock-rotate-left"></i>
                           Lịch sử xem</a>
                       </li>
@@ -103,25 +103,25 @@
                         </a>
                       </li>
                       <li>
-                        <a href="#" class="user-menu-item">
-                          Phim mới
+                        <a href="/search.html?latest" class="user-menu-item">
+                          Phổ biến
                         </a>
                       </li>
                     </ul>
                   </div>
                 </div>
               </div>
-
+  
             </div>
           </div>
         </div>
-
+  
         <div class="col-12 d-none d-md-block header__desktop">
           <div class="header__top-wrap">
             <div class="header__top-logo">
               <a href="./home.html"><img src="./assets/img/paner.png" alt="logo"></a>
             </div>
-
+  
             <div class="header__center d-flex">
               <ul class="header__center-menu d-flex">
                 <li class="center-menu-item">
@@ -131,10 +131,10 @@
                   <a href="/search.html?week">Phim hot tuần</a>
                 </li>
                 <li class="center-menu-item">
-                  <a href="#">Phim mới</a>
+                  <a href="/search.html?latest">Phổ biến</a>
                 </li>
               </ul>
-
+  
               <div class="header__center-search">
                 <label class="input-tag">
                   <input type="text" id="search__desktop">
@@ -144,31 +144,33 @@
                 </label>
               </div>
             </div>
-
+  
             <div class="header__nav-user d-flex">
               <i class="user-icon fa-solid fa-user"></i>
-
+  
               <div class="header__nav-wrap">
                 <div class="triangle"></div>
                 <ul class="nav-user-menu">
                   <li>
-                    <a class="user-menu-item" href="./account.html"><i class="fa-solid fa-circle-info"></i>
+                    <a class="user-menu-item" href="./account.html#nav__profile-tab"><i
+                        class="fa-solid fa-circle-info"></i>
                       Tài khoản
                     </a>
                   </li>
                   <li>
-                    <a href="./account.html" class="user-menu-item">
+                    <a href="./account.html#nav__favorite-tab" class="user-menu-item">
                       <i class="fa-solid fa-heart"></i>
                       Phim yêu thích
                     </a>
                   </li>
                   <li>
-                    <a class="user-menu-item" href="./account.html"><i class="fa-solid fa-bookmark"></i>
+                    <a class="user-menu-item" href="./account.html#nav__bookmark-tab"><i class="fa-solid fa-bookmark"></i>
                       Phim đã lưu
                     </a>
                   </li>
                   <li>
-                    <a class="user-menu-item" href="./account.html"><i class="fa-solid fa-clock-rotate-left"></i>
+                    <a class="user-menu-item" href="./account.html#nav__history-tab"><i
+                        class="fa-solid fa-clock-rotate-left"></i>
                       Lịch sử xem
                     </a>
                   </li>
@@ -202,52 +204,7 @@
                   <!-- <img src="./assets/img/meo-beo-sieu-dang.jpg" alt="meo beo"> -->
                 </div>
                 <div class="film__info-text">
-                  <!-- <h1>
-                    Mèo Béo Siêu Đẳng
-                  </h1> -->
-                  <!-- <h2>
-                    The Amazing Maurice (2022)
-                  </h2> -->
-                  <!-- <ul class="list__button">
-                    <li>
-                      <a class="btn btn-red">
-                        <i class="fa-regular fa-circle-play"></i>
-                        Xem Phim
-                      </a>
-                    </li>
-                    <li>
-                      <div class="addTo__account favorite">
-                        <div class="addTo__account-wrap">
-                          <span class="remove__favorite">
-                            <i class="fa-regular fa-heart"></i>
-                          </span>
-                          <span class="add__favorite d-none">
-                            <i class="fa-solid fa-heart"></i>
-                          </span>
-                        </div>
-                        <div class="addTo__account-des">
-                          <div class="triangle"></div>
-                          <div class="des">Thêm vào yêu thích</div>
-                        </div>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="addTo__account bookmark">
-                        <div class="addTo__account-wrap">
-                          <span class="remove__bookmark d-none">
-                            <i class="fa-regular fa-bookmark"></i>
-                          </span>
-                          <span class="add__bookmark">
-                            <i class="fa-solid fa-bookmark"></i>
-                          </span>
-                        </div>
-                        <div class="addTo__account-des">
-                          <div class="triangle"></div>
-                          <div class="des">Thêm vào danh sách xem</div>
-                        </div>
-                      </div>
-                    </li>
-                  </ul> -->
+                  
                 </div>
               </div>
 

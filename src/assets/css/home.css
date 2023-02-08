@@ -357,7 +357,6 @@ a.btn-red {
     --growth-from: 0.2;
     --growth-to: 1;
     top: 3rem;
-    right: 0;
     display: none;
     width: 50px;
     height: 30px;
@@ -374,7 +373,7 @@ a.btn-red {
     width: 0;
     height: 0;
     z-index: 1;
-    right: 27%;
+    right: 43%;
     border-top: 0;
     position: absolute;
     border-style: solid;
