@@ -33,6 +33,12 @@
     .section__movie-list {
         padding: 3rem 2rem;
     }
+
+    /* Watch.css */
+    #play {
+        width: 510px;
+        height: 315px;
+    }
 }
 
 @media screen and (min-width: 768px) {
@@ -94,9 +100,6 @@
 
 
     /* Home Responsive */
-    .section__movie-list {
-        padding: 3rem 2rem;
-    }
 
     .card__movie-big .bookmark-rate {
         padding: 1rem;
@@ -172,7 +175,7 @@
     }
 
     .header__nav-wrap {
-        top: 4rem;
+        top: 3.5rem;
     }
 
     .section__card-bgr {

@@ -12,8 +12,9 @@ import {
   navSearchMobile,
   navMobile,
   headerOnTop,
+  loading,
 } from "./common";
-const header = document.querySelector("header");
+
 const main = document.querySelector(".main");
 const mainContainer = main.querySelector(".container");
 const mainRow = mainContainer.querySelector(".row");
@@ -192,6 +193,8 @@ const makeCardsBig = (id, data) => {
       }
     }
   });
+
+  loading();
 };
 
 const makeCategoryElementSlide = (category, data, id) => {
@@ -245,6 +248,5 @@ window.onload = () => {
   navSearchMobile();
   navSearchDesktop();
   navMobile();
-
   headerOnTop();
 };

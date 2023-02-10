@@ -15,6 +15,7 @@ import {
   navSearchMobile,
   navMobile,
   headerOnTop,
+  loading,
 } from "./common.js";
 
 let movieId = location.search.replace("?", "");
@@ -24,28 +25,31 @@ const formatString = (currentIndex, maxIndex) => {
   return currentIndex == maxIndex - 1 ? "" : ", ";
 };
 
-fetch(
-  `${api.base_url}${movieId}?` +
-    new URLSearchParams({
-      api_key: api.api_key,
-    }) +
-    api.language
-)
-  .then((res) => res.json())
-  .then((data) => {
-    setupMovieInfo(data);
-    favorite();
-    bookmark();
-  })
-  .catch((err) => console.log("err"));
+const callApiMovie = (movieId) => {
+  fetch(
+    `${api.base_url}${movieId}?` +
+      new URLSearchParams({
+        api_key: api.api_key,
+      }) +
+      api.language
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      setupMovieInfo(data, movieId);
+    })
+    .catch((err) => console.log("err"));
+};
 
-const setupMovieInfo = (data) => {
+const setupMovieInfo = (data, movieId) => {
   const title = document.querySelector("title");
   title.innerHTML = data.title;
   createImgBig(data);
   createImgSmall(data);
   movieName(data);
   movieInfo(data);
+  iconPlay(data);
+  favorite(movieId);
+  bookmark(movieId);
 };
 
 const createImgSmall = (data) => {
@@ -80,7 +84,7 @@ const movieName = (data) => {
 
   listButton.innerHTML = `
                     <li>
-                      <a class="btn btn-red">
+                      <a href="./watch.html" class="btn btn-red">
                         <i class="fa-regular fa-circle-play"></i>
                         Xem Phim
                       </a>
@@ -118,8 +122,17 @@ const movieName = (data) => {
                       </div>
                     </li>
     `;
-
   movieName.append(NameH1, NameH2, listButton);
+};
+
+const iconPlay = (data) => {
+  const filmInfo = document.querySelector(".film__info-img");
+  console.log(filmInfo);
+  const a = document.createElement("a");
+  a.href = `./watch.html?${data.id}`;
+  a.classList.add("icon-play", "d-none", "d-sm-block");
+  a.innerHTML = `<i class="fa-solid fa-play"></i>`;
+  filmInfo.appendChild(a);
 };
 
 const movieInfo = (data) => {
@@ -181,18 +194,20 @@ const runtime = (data) => {
 };
 
 // fetch cast & editor
-fetch(
-  `${api.base_url}${movieId}/credits?` +
-    new URLSearchParams({
-      api_key: api.api_key,
-    }) +
-    api.language
-)
-  .then((res) => res.json())
-  .then((data) => {
-    editor(data);
-    cast(data);
-  });
+const callApiCast = () => {
+  fetch(
+    `${api.base_url}${movieId}/credits?` +
+      new URLSearchParams({
+        api_key: api.api_key,
+      }) +
+      api.language
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      editor(data);
+      cast(data);
+    });
+};
 
 const editor = (data) => {
   const editor = document.querySelector(".editor");
@@ -275,67 +290,69 @@ const overview = (data) => {
 };
 
 // fetch trailer
-fetch(
-  `${api.base_url}${movieId}/videos?` +
-    new URLSearchParams({
-      api_key: api.api_key,
-    })
-)
-  .then((res) => res.json())
-  .then((data) => {
-    // console.log(data);
-    const wrapIframe = document.querySelector(".wrap-iframes");
-    const item = document.createElement("div");
+const callApiTrailer = () => {
+  fetch(
+    `${api.base_url}${movieId}/videos?` +
+      new URLSearchParams({
+        api_key: api.api_key,
+      })
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      // console.log(data);
+      const wrapIframe = document.querySelector(".wrap-iframes");
+      const item = document.createElement("div");
 
-    let maxTrailer = data.results.length > 4 ? 4 : data.results.length;
-    item.classList.add("item");
-    if (maxTrailer == 0) {
-      const overview = document.createElement("div");
-      overview.classList.add("overview");
-      wrapIframe.appendChild(overview);
-      return (overview.innerHTML = `
+      let maxTrailer = data.results.length > 4 ? 4 : data.results.length;
+      item.classList.add("item");
+      if (maxTrailer == 0) {
+        const overview = document.createElement("div");
+        overview.classList.add("overview");
+        wrapIframe.appendChild(overview);
+        return (overview.innerHTML = `
         <p>Trailer sẽ được cập nhật trong thời gian sớm nhất.</p>
       `);
-    }
-    for (let i = 0; i < maxTrailer; i++) {
-      item.innerHTML += `
+      }
+      for (let i = 0; i < maxTrailer; i++) {
+        item.innerHTML += `
       <iframe src="https://youtube.com/embed/${data.results[i].key}" title="YouTube video player" frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen>
       </iframe>
 
     `;
-    }
-    wrapIframe.append(item);
-  });
-
+      }
+      wrapIframe.append(item);
+    });
+};
 // fetch recommendations
-fetch(
-  `${api.base_url}${movieId}/recommendations?` +
-    new URLSearchParams({
-      api_key: api.api_key,
-    }) +
-    api.language
-)
-  .then((res) => res.json())
-  .then((data) => {
-    const container = document.querySelector(".recommendations-container");
-    const result = data.results;
-    const slide = document.createElement("div");
-    slide.classList.add("owl-carousel", "owl-theme", "nominated-slide");
-    const length = result.length;
-    if (length == 0) {
-      const overview = document.createElement("div");
-      overview.classList.add("overview");
+const recommendations = () => {
+  fetch(
+    `${api.base_url}${movieId}/recommendations?` +
+      new URLSearchParams({
+        api_key: api.api_key,
+      }) +
+      api.language
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      const container = document.querySelector(".recommendations-container");
+      const result = data.results;
+      const slide = document.createElement("div");
+      slide.classList.add("owl-carousel", "owl-theme", "nominated-slide");
+      const length = result.length;
+      if (length == 0) {
+        const overview = document.createElement("div");
+        overview.classList.add("overview");
 
-      container.appendChild(overview);
-      overview.innerHTML = `
+        container.appendChild(overview);
+        overview.innerHTML = `
         <p>Chưa có đề xuất cho bạn.</p>
       `;
-    } else if (length < 10) {
-      for (let i = 0; i < length; i++) {
-        if (result[i].backdrop_path !== null) {
-          slide.innerHTML += `
+      } else if (length < 10) {
+        for (let i = 0; i < length; i++) {
+          if (result[i].backdrop_path !== null) {
+            slide.innerHTML += `
           <div class="item">
             <div class="card__movie">
               <a href="/movie.html?${result[i].id}">
@@ -348,12 +365,12 @@ fetch(
             </div>
           </div>
         `;
+          }
         }
-      }
-    } else {
-      for (let i = 0; i < 10; i++) {
-        if (result[i].backdrop_path !== null) {
-          slide.innerHTML += `
+      } else {
+        for (let i = 0; i < 10; i++) {
+          if (result[i].backdrop_path !== null) {
+            slide.innerHTML += `
           <div class="item">
             <div class="card__movie">
               <a href="/movie.html?${result[i].id}">
@@ -366,32 +383,88 @@ fetch(
             </div>
           </div>
         `;
+          }
         }
       }
-    }
-    container.append(slide);
-    customCarousel.carousel(data);
-  });
-
-const favorite = () => {
-  const favorite = document.querySelector(".favorite");
-  const addFavorite = favorite.querySelector(".add__favorite");
-  favorite.addEventListener("click", () => {
-    addFavorite.classList.toggle("d-none");
-  });
+      container.append(slide);
+      customCarousel.carousel(data);
+    });
 };
 
-const bookmark = () => {
-  const bookmark = document.querySelector(".bookmark");
-  const addBookmark = bookmark.querySelector(".add__bookmark");
-  bookmark.addEventListener("click", () => {
+const favorite = (movieId) => {
+  const favoriteBtn = document.querySelector(".favorite");
+  const addFavorite = favoriteBtn.querySelector(".add__favorite");
+  const des = favoriteBtn.querySelector(".des");
+  let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+  const toggleFavorite = () => {
+    addFavorite.classList.toggle("d-none");
+    let isFavorite = !addFavorite.classList.contains("d-none");
+
+    if (isFavorite) {
+      des.innerHTML = "Xóa khỏi yêu thích";
+      favorites.push(movieId);
+    } else {
+      des.innerHTML = "Thêm vào yêu thích";
+      let index = favorites.indexOf(movieId);
+      if (index > -1) {
+        favorites.splice(index, 1);
+      }
+    }
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  };
+
+  if (favorites.includes(movieId)) {
+    addFavorite.classList.remove("d-none");
+    des.innerHTML = "Xóa khỏi yêu thích";
+  } else {
+    addFavorite.classList.add("d-none");
+  }
+
+  favoriteBtn.addEventListener("click", toggleFavorite);
+};
+
+const bookmark = (movieId) => {
+  const bookmarkBtn = document.querySelector(".bookmark");
+  const addBookmark = bookmarkBtn.querySelector(".add__bookmark");
+  let bookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
+  const des = bookmarkBtn.querySelector(".des");
+
+  const toggleBookmark = () => {
     addBookmark.classList.toggle("d-none");
-  });
+    let isBookmark = !addBookmark.classList.contains("d-none");
+
+    if (isBookmark) {
+      des.innerHTML = "Xóa khỏi danh sách xem";
+      bookmarks.push(movieId);
+    } else {
+      des.innerHTML = "Thêm vào danh sách xem";
+      let index = bookmarks.indexOf(movieId);
+      if (index > -1) {
+        bookmarks.splice(index, 1);
+      }
+    }
+    localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+  };
+
+  if (bookmarks.includes(movieId)) {
+    addBookmark.classList.remove("d-none");
+    des.innerHTML = "Xóa khỏi danh sách xem";
+  } else {
+    addBookmark.classList.add("d-none");
+  }
+
+  bookmarkBtn.addEventListener("click", toggleBookmark);
 };
 
 window.onload = () => {
+  callApiMovie(movieId);
   navSearchDesktop();
   navSearchMobile();
   navMobile();
+  callApiCast();
   headerOnTop();
+  callApiTrailer();
+  loading();
+  recommendations();
 };

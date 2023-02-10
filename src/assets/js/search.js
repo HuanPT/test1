@@ -15,6 +15,7 @@ import {
   backToTop,
   headerOnTop,
   getURLparams,
+  loading,
 } from "./common";
 
 let countries = [
@@ -283,21 +284,6 @@ const listGenres = (data) => {
   });
 };
 
-// const fetchFilterCountry = () => {
-//   fetch(
-//     api.countryList +
-//       new URLSearchParams({
-//         api_key: api.api_key,
-//       }) +
-//       api.language
-//   )
-//     .then((res) => res.json())
-//     .then((data) => {
-//       console.log(data);
-//       listCountry(data);
-//     });
-// };
-
 const listCountry = (data) => {
   const country = document.querySelector("#filter__item-country");
 
@@ -435,4 +421,5 @@ window.onload = () => {
   navSearchMobile();
   headerOnTop();
   removeFilter();
+  loading();
 };

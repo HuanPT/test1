@@ -41,6 +41,12 @@ export function backToTop() {
   });
 }
 
+export const loading = () => {
+  setTimeout(() => {
+    document.querySelector(".loading").style.display = "none";
+  }, 1000);
+};
+
 export function headerOnTop() {
   const header = document.querySelector("header");
   let height = 0,
@@ -88,6 +94,7 @@ export const selectedHash = () => {
   console.log(hash);
   const getHash = document.getElementById(hash);
   getHash.click();
+  backToTop();
 };
 
 export function isEmail(value, message) {

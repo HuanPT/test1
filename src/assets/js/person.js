@@ -19,6 +19,7 @@ import {
   navSearchMobile,
   navMobile,
   headerOnTop,
+  loading,
 } from "./common";
 
 let personId = location.search.replace("?", "");
@@ -144,4 +145,5 @@ window.onload = () => {
   navSearchMobile();
   headerOnTop();
   navMobile();
+  loading();
 };
