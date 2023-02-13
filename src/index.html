@@ -16,15 +16,25 @@
 </head>
 
 <body>
-  <div class="form register d-none">
+  <div id="toast">
+  </div>
+  <div class="loading">
+    <div>
+      <div class="c1"></div>
+      <div class="c2"></div>
+      <div class="c3"></div>
+      <div class="c4"></div>
+    </div>
+  </div>
+  <div class="form register">
     <div class="overlay"></div>
     <div class="form__wrapper">
-      <div class="form__list">
+      <div class="form__section">
         <form class="register__form form__item">
           <h1>Đăng ký</h1>
           <div class="login__input-group">
             <label class="label__input">
-              <input type="text" name="fullName" class="input-tag full-name">
+              <input id="full__name" type="text" name="fullName" class="input-tag">
               <span class="place">
                 Họ và tên
               </span>
@@ -54,11 +64,11 @@
           </div>
 
           <div class="form__btn register__btn">
-            <button type="button" class="btn btn-red">Đăng ký</button>
+            <button type="submit" class="btn btn-red">Đăng ký</button>
           </div>
 
-          <div class="register__now">
-            Bạn đã có tài khoản TheMovies? <a href="/">Đăng nhập ngay.</a>
+          <div class="you__had">
+            Bạn đã có tài khoản TheMovies? <a class="login__now">Đăng nhập ngay</a>.
           </div>
         </form>
       </div>
@@ -72,7 +82,7 @@
   <div class="form login d-none">
     <div class="overlay"></div>
     <div class="form__wrapper">
-      <div class="form__list">
+      <div class="form__list form__section">
 
         <form class="login__form d-none form__item">
           <h1>Đăng nhập</h1>
@@ -101,7 +111,7 @@
           </div>
 
           <div class="form__btn login__btn">
-            <button type="button" class="btn btn-red">Đăng nhập</button>
+            <button type="submit" class="btn btn-red">Đăng nhập</button>
           </div>
           <div class="login__form-help">
             <div class="login__remember">
@@ -112,11 +122,11 @@
                 </span>
               </label>
             </div>
-            <a href="#" class="help-link">Bạn quên mật khẩu?</a>
+            <a class="help-link">Bạn quên mật khẩu?</a>
           </div>
 
-          <div class="register__now">
-            Bạn mới tham gia TheMovies? <a href="/">Đăng ký ngay.</a>
+          <div class="you__had">
+            Bạn mới tham gia TheMovies? <a class="register__now">Đăng ký ngay.</a>
           </div>
         </form>
 
@@ -218,6 +228,7 @@
           <div class="header__top-logo">
             <a href="home.html"><img src="./assets/img/paner.png" alt="logo"></a>
           </div>
+
           <div class="header__login">
             <button type="button" class="btn btn-red">Đăng nhập</button>
           </div>
@@ -247,7 +258,7 @@
               Xem ở mọi nơi. Hủy bất kỳ lúc nào.
             </h2>
 
-            <form action="#" class="email__form">
+            <form class="email__form">
               <h3 class="email__form-title">
                 Bạn đã sẵn sàng xem chưa? Nhập email để tạo hoặc kích hoạt lại tư cách thành viên của bạn.
               </h3>
@@ -261,7 +272,6 @@
                     </span>
                   </label>
                   <div class="input-error">
-                    Email chưa chính xác!
                   </div>
                 </div>
                 <button type="button" class="btn btn-red">
@@ -276,7 +286,7 @@
     </div>
 
     <!-- Card Tv -->
-    <div class="section__card card-on-tv">
+    <div class="section__card card__on-tv">
       <div class="section__card-wrap">
         <div class="container">
           <div class="row">
@@ -348,7 +358,7 @@
     </div>
 
     <!-- Card Device -->
-    <div class="section__card">
+    <div class="section__card card__device">
       <div class="section__card-wrap">
         <div class="container">
           <div class="row">
@@ -366,8 +376,11 @@
 
             <div class="col-12 col-md-6">
               <div class="section__card-img">
-                <div class="section__card-img-animation mt-0">
-                  <img src="./assets/img/everyWhere.png" alt="everyWhere">
+                <div class="section__card-img-animation">
+                  <img src="./assets/img/device.png" alt="tv">
+                  <div class="card__animation">
+                    <video src="./assets/img/video-devices-vn.m4v" autoplay muted loop></video>
+                  </div>
                 </div>
               </div>
             </div>
@@ -420,7 +433,7 @@
                 </h2>
 
                 <div class="btn btn-red btn__down-app">
-                  <a href="#">
+                  <a class="not__link">
                     Tải ứng dụng
                     <i class="fa-solid fa-chevron-right"></i>
                   </a>
@@ -570,7 +583,7 @@
                   </li>
                 </ul>
 
-                <form action="#" class="email__form">
+                <form class="email__form">
                   <h3 class="email__form-title">
                     Bạn đã sẵn sàng xem chưa? Nhập email để tạo hoặc kích hoạt lại tư cách thành viên của bạn.
                   </h3>
@@ -584,7 +597,7 @@
                         </span>
                       </label>
                       <div class="input-error">
-                        Email chưa chính xác!
+
                       </div>
                     </div>
                     <button type="button" class="btn btn-red">
@@ -609,57 +622,57 @@
           <div class="row">
             <div class="col-12">
               <div class="footer-title">
-                <a href="#">Bạn có câu hỏi? Liên hệ với chúng tôi.</a>
+                <a class="not__link">Bạn có câu hỏi? Liên hệ với chúng tôi.</a>
               </div>
             </div>
           </div>
           <ul class="row">
             <li class="col-6 col-sm-4 col-md-3">
-              <a href="#">Câu hỏi thường gặp</a>
+              <a class="not__link">Câu hỏi thường gặp</a>
             </li>
 
             <li class="col-6 col-sm-4 col-md-3">
-              <a href="#">Trung tâm trợ giúp</a>
+              <a class="not__link">Trung tâm trợ giúp</a>
             </li>
 
             <li class="col-6 col-sm-4 col-md-3">
-              <a href="#">Tài khoản</a>
+              <a class="not__link">Tài khoản</a>
             </li>
             <li class="col-6 col-sm-4 col-md-3">
-              <a href="#">Trung tâm đa phương tiện</a>
+              <a class="not__link">Trung tâm đa phương tiện</a>
             </li>
             <li class="col-6 col-sm-4 col-md-3">
-              <a href="#">Quan hệ với nhà đầu tư</a>
+              <a class="not__link">Quan hệ với nhà đầu tư</a>
             </li>
             <li class="col-6 col-sm-4 col-md-3">
-              <a href="#">Việc làm</a>
+              <a class="not__link">Việc làm</a>
             </li>
             <li class="col-6 col-sm-4 col-md-3">
-              <a href="#">Các cách xem</a>
+              <a class="not__link">Các cách xem</a>
             </li>
             <li class="col-6 col-sm-4 col-md-3">
-              <a href="#">Điều khoản sử dụng</a>
+              <a class="not__link">Điều khoản sử dụng</a>
             </li>
             <li class="col-6 col-sm-4 col-md-3">
-              <a href="#">Quyền riêng tư</a>
+              <a class="not__link">Quyền riêng tư</a>
             </li>
             <li class="col-6 col-sm-4 col-md-3">
-              <a href="#">Tùy chọn cookie</a>
+              <a class="not__link">Tùy chọn cookie</a>
             </li>
             <li class="col-6 col-sm-4 col-md-3">
-              <a href="#">Thông tin doanh nghiệp</a>
+              <a class="not__link">Thông tin doanh nghiệp</a>
             </li>
             <li class="col-6 col-sm-4 col-md-3">
-              <a href="#">Liên hệ với chúng tôi</a>
+              <a class="not__link">Liên hệ với chúng tôi</a>
             </li>
             <li class="col-6 col-sm-4 col-md-3">
-              <a href="#">Kiểm tra tốc độ</a>
+              <a class="not__link">Kiểm tra tốc độ</a>
             </li>
             <li class="col-6 col-sm-4 col-md-3">
-              <a href="#">Thông báo pháp lý</a>
+              <a class="not__link">Thông báo pháp lý</a>
             </li>
             <li class="col-6 col-sm-4 col-md-3">
-              <a href="#">Chỉ có trên TheMovies</a>
+              <a class="not__link">Chỉ có trên TheMovies</a>
             </li>
           </ul>
 
